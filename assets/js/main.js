@@ -37,7 +37,7 @@ const BLOGS = [
 // Bookshelf on the home page. status: 'reading' (leans out with a bookmark), 'read', or 'next'.
 const BOOKS = [
   { title: 'Cleopatra and Frankenstein', author: 'Coco Mellors', status: 'reading', note: '' },
-  { title: 'Hollywood Ending', author: '', status: 'reading', note: '' },
+  { title: 'Hollywood Ending', author: 'John Green', status: 'reading', note: '' },
   { title: 'Normal People', author: 'Sally Rooney', status: 'read', note: 'a favorite' },
   { title: 'The Silent Patient', author: 'Alex Michaelides', status: 'read', note: 'a favorite' },
   { title: 'Little Women', author: 'Louisa May Alcott', status: 'read', note: 'a favorite' },
