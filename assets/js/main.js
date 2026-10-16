@@ -34,26 +34,36 @@ const BLOGS = [
 ];
 
 
-// Bookshelf on the home page. status: 'reading' (shown pulled out), 'read', or 'next'.
-// PLACEHOLDERS: replace with your real books.
+// Bookshelf on the home page. status: 'reading' (leans out with a bookmark), 'read', or 'next'.
 const BOOKS = [
-  { title: 'Book I am reading now', author: 'Author name', status: 'reading', note: 'A line about why you picked it up.' },
-  { title: 'A favorite book', author: 'Author name', status: 'read', note: 'One line on why you loved it.' },
-  { title: 'Another favorite', author: 'Author name', status: 'read', note: '' },
-  { title: 'A book that changed my mind', author: 'Author name', status: 'read', note: '' },
-  { title: 'Up next on my list', author: 'Author name', status: 'next', note: '' },
+  { title: 'Cleopatra and Frankenstein', author: 'Coco Mellors', status: 'reading', note: '' },
+  { title: 'Hollywood Ending', author: '', status: 'reading', note: '' },
+  { title: 'Normal People', author: 'Sally Rooney', status: 'read', note: 'a favorite' },
+  { title: 'The Silent Patient', author: 'Alex Michaelides', status: 'read', note: 'a favorite' },
+  { title: 'Little Women', author: 'Louisa May Alcott', status: 'read', note: 'a favorite' },
+  { title: 'A Little Princess', author: 'Frances Hodgson Burnett', status: 'read', note: 'a favorite' },
 ];
 
-// Travel bucket list on the home page. done: true = been there.
-// PLACEHOLDERS: replace with your real places.
-const TRAVEL = [
-  { place: 'A place I have been', note: 'year or a tiny memory', done: true },
-  { place: 'Another place I have been', note: '', done: true },
-  { place: 'Dream destination 1', note: '', done: false },
-  { place: 'Dream destination 2', note: '', done: false },
-  { place: 'Dream destination 3', note: '', done: false },
-  { place: 'Dream destination 4', note: '', done: false },
+// Songs on repeat (home page). Add your favorites here; the card stays hidden while this list is empty.
+// spotify: optional link to the track on Spotify (Share → Copy song link). Without it, the button searches Spotify.
+const TRACKS = [
+  // { title: 'Song name', artist: 'Artist', spotify: 'https://open.spotify.com/track/...' },
 ];
+// Optional: a Spotify playlist to embed under the tracks (Share → Copy link to playlist).
+// It updates on its own whenever you change the playlist in Spotify.
+const SPOTIFY_PLAYLIST = '';
+
+// Travel (home page)
+const HOMES = [
+  { place: 'Ahmedabad', what: 'born' },
+  { place: 'Pune', what: 'lived' },
+  { place: 'Goa', what: 'college' },
+  { place: 'Bengaluru', what: 'work' },
+  { place: 'Pittsburgh', what: 'masters' },
+  { place: 'Bay Area', what: 'work' },
+];
+const VISITED = ['Manali', 'Mumbai', 'Delhi', 'Coorg', 'Sri Lanka', 'Dubai', 'Mauritius', 'Hong Kong', 'Singapore', 'New York', 'Philadelphia', 'Washington DC', 'San Diego', 'Los Angeles'];
+const BUCKET = ['Switzerland', 'Paris', 'Australia', 'London', 'Amsterdam', 'Japan', 'Kashmir', 'Meghalaya'];
 
 /* ================= SHARED ================= */
 (() => {
@@ -69,51 +79,99 @@ function tick() { try { clock.textContent = 'Pittsburgh ' + new Date().toLocaleT
 if (clock) { tick(); setInterval(tick, 20000); }
 
 /* ================= HOME: neural network ================= */
+// Layers: where I've been → who I am → what I do → Shikha. Edit labels, descriptions and wires here.
+const NET = {
+  layers: [
+    [ { id: 'bits', t: 'BITS Goa', d: 'Computer science, philosophy and economics, and where I started building community' },
+      { id: 'google', t: 'Google', d: 'Two years as an ML engineer on Maps and Ads, plus internships' },
+      { id: 'cmu', t: 'CMU', d: 'MS in Machine Learning and research at the Lab for AI and Social Impact' },
+      { id: 'travel', t: 'Travel', d: 'Six homes so far, and a long bucket list' },
+      { id: 'fam', t: 'Friends and Family', d: 'The people who keep me grounded' } ],
+    [ { id: 'curiosity', t: 'Curiosity', d: 'Wanting to know how things work, and why' },
+      { id: 'love', t: 'Love', d: 'For people, for music, for good stories' },
+      { id: 'motivation', t: 'Motivation', d: 'Showing up and doing the work' },
+      { id: 'compassion', t: 'Compassion', d: 'Caring about who the work is for' },
+      { id: 'creativity', t: 'Creativity', d: 'Finding a new way to look at a problem' },
+      { id: 'passion', t: 'Passion', d: 'Going all in on what matters to me' } ],
+    [ { id: 'cs', t: 'Computer Science', d: 'Software engineering and ML, from Google to CMU' },
+      { id: 'research', t: 'Research', d: 'ML for maternal health; earlier, COVID-19 modelling' },
+      { id: 'wit', t: 'Women in Tech', d: 'Founded a 550+ member community; mentoring' },
+      { id: 'art', t: 'Art + Music', d: 'Trained in Hindustani classical; covers on YouTube' } ],
+    [ { id: 'me', t: 'Shikha', d: 'Building AI for social impact' } ],
+  ],
+  wires: {
+    bits: ['curiosity', 'passion', 'compassion'],
+    google: ['motivation', 'passion', 'creativity'],
+    cmu: ['curiosity', 'motivation', 'compassion'],
+    travel: ['curiosity', 'creativity', 'love'],
+    fam: ['love', 'compassion', 'motivation'],
+    curiosity: ['research', 'cs'],
+    love: ['art', 'wit'],
+    motivation: ['cs', 'research'],
+    compassion: ['research', 'wit'],
+    creativity: ['art', 'cs'],
+    passion: ['wit', 'art', 'cs'],
+    cs: ['me'], research: ['me'], wit: ['me'], art: ['me'],
+  },
+};
 const nc = $('net');
 if (nc) {
   const nx = nc.getContext('2d'), tip = $('tip');
-  const L = [
-    [{ t: 'BITS Goa', d: 'Computer science, plus a minor in Philosophy, Economics and Politics' }, { t: 'Google', d: 'ML engineer on Maps and Ads, and three internships' }, { t: 'Uber', d: 'Software engineering intern on the streaming platform' }, { t: 'CMU', d: 'MS Machine Learning, Dec 2026' }, { t: 'Music', d: 'Trained in Hindustani classical, girly pop on repeat, covers on YouTube' }],
-    [{ t: 'h₁', d: 'curiosity' }, { t: 'h₂', d: 'rigor' }, { t: 'h₃', d: 'shipping things' }, { t: 'h₄', d: 'care for people' }],
-    [{ t: 'impact', d: 'AI for social impact: my main purpose' }, { t: 'craft', d: 'clean, scalable systems' }, { t: 'joy', d: 'singing, reading and travel' }],
-    [{ t: 'Shikha', d: 'all of the above, still training' }],
-  ];
-  const W = 880, H = 605, pos = [];
-  L.forEach((layer, li) => { const x = 110 + li * (W - 250) / (L.length - 1); pos[li] = layer.map((n, i) => ({ x: li === 0 ? 190 : x, y: H * (i + 1) / (layer.length + 1), n, i })); });
+  const W = 880, H = 640, XS = [205, 400, 590, 765];
+  const nodes = [], byId = {};
+  NET.layers.forEach((layer, li) => layer.forEach((n, i) => {
+    const o = { ...n, li, i, x: XS[li], y: 40 + (H - 110) * (i + 1) / (layer.length + 1), r: li === 3 ? 34 : 15 };
+    nodes.push(o); byId[o.id] = o;
+  }));
+  const edges = []; Object.entries(NET.wires).forEach(([a, bs]) => bs.forEach(b => byId[a] && byId[b] && edges.push([byId[a], byId[b]])));
+  // all nodes connected to a node, upstream and downstream
+  const path = o => {
+    const set = new Set([o]);
+    const walk = (n, dir) => edges.forEach(([a, b]) => { const nxt = dir > 0 ? (a === n ? b : null) : (b === n ? a : null); if (nxt && !set.has(nxt)) { set.add(nxt); walk(nxt, dir); } });
+    walk(o, 1); walk(o, -1); return set;
+  };
   let pulse = -1, hover = null;
   function drawNet(p) {
-    const ink = V('--ink'), acc = V('--accent'), faint = '#d3dff0';
-    const cols = [V('--c4'), V('--c2'), V('--c6'), V('--c3'), V('--c1')];
-    const hid = [V('--c1'), V('--c3'), V('--c4'), V('--c5')];
+    const ink = V('--ink'), acc = V('--accent');
+    const cols = [V('--c4'), V('--c2'), V('--c6'), V('--c3'), V('--c1'), V('--c5')];
+    const on = hover ? path(hover) : null;
     nx.clearRect(0, 0, W, H);
-    for (let li = 0; li < pos.length - 1; li++) for (const a of pos[li]) for (const b of pos[li + 1]) {
-      const lit = p > li && p < li + 1.6;
-      nx.strokeStyle = lit ? (li === 0 ? cols[a.i] : acc) : faint; nx.lineWidth = lit ? 2.4 : 1.1;
+    // faint background mesh so it still reads as a network
+    nx.strokeStyle = '#e4ebf5'; nx.lineWidth = 1;
+    for (let li = 0; li < 3; li++) nodes.filter(n => n.li === li).forEach(a => nodes.filter(n => n.li === li + 1).forEach(b => { nx.beginPath(); nx.moveTo(a.x, a.y); nx.lineTo(b.x, b.y); nx.stroke(); }));
+    // meaningful wires
+    edges.forEach(([a, b]) => {
+      const lit = (p > a.li && p < a.li + 1.6) || (on && on.has(a) && on.has(b));
+      nx.strokeStyle = lit ? acc : (on ? '#d3dff0' : '#9fb3d1'); nx.lineWidth = lit ? 2.6 : 1.4;
       nx.beginPath(); nx.moveTo(a.x, a.y); nx.lineTo(b.x, b.y); nx.stroke();
-      if (p > li && p < li + 1) { const f = p - li; nx.fillStyle = V('--pen'); nx.beginPath(); nx.arc(a.x + (b.x - a.x) * f, a.y + (b.y - a.y) * f, 3.5, 0, 7); nx.fill(); }
-    }
-    pos.forEach((layer, li) => layer.forEach(o => {
-      const last = li === pos.length - 1, act = p >= li;
-      nx.beginPath(); nx.arc(o.x, o.y, last ? 34 : 22, 0, 7);
-      nx.fillStyle = li === 0 ? cols[o.i] : (act ? (last ? V('--c2') : hid[o.i % 4]) : '#fff'); nx.fill();
-      nx.lineWidth = hover === o ? 3.2 : 2; nx.strokeStyle = ink; nx.stroke();
+      if (p > a.li && p < a.li + 1) { const f = p - a.li; nx.fillStyle = V('--pen'); nx.beginPath(); nx.arc(a.x + (b.x - a.x) * f, a.y + (b.y - a.y) * f, 3.5, 0, 7); nx.fill(); }
+    });
+    nodes.forEach(o => {
+      const dim = on && !on.has(o), act = p < 0 || p >= o.li;
+      nx.globalAlpha = dim ? .3 : 1;
+      nx.beginPath(); nx.arc(o.x, o.y, o.r, 0, 7);
+      nx.fillStyle = o.li === 3 ? V('--c2') : (act ? cols[(o.i + o.li * 2) % cols.length] : '#fff'); nx.fill();
+      nx.lineWidth = hover === o ? 3.4 : 2; nx.strokeStyle = ink; nx.stroke();
       nx.fillStyle = ink;
-      if (li === 0) { nx.textAlign = 'right'; nx.font = '500 19px IBM Plex Sans, sans-serif'; nx.fillText(o.n.t, o.x - 32, o.y + 6); }
-      else if (last) { nx.textAlign = 'center'; nx.font = 'italic 32px Instrument Serif, serif'; nx.fillText(o.n.t, o.x, o.y + 72); }
-      else { nx.textAlign = 'center'; nx.font = '500 15px IBM Plex Mono, monospace'; nx.fillText(o.n.t, o.x, o.y + 5); }
-    }));
+      if (o.li === 0) { nx.textAlign = 'right'; nx.font = '500 19px IBM Plex Sans, sans-serif'; nx.fillText(o.t, o.x - 24, o.y + 7); }
+      else if (o.li === 3) { nx.textAlign = 'center'; nx.font = 'italic 38px Instrument Serif, serif'; nx.fillText(o.t, o.x, o.y + 76); nx.font = '500 15px IBM Plex Mono, monospace'; nx.fillStyle = V('--pen'); nx.fillText('AI for social impact', o.x, o.y + 98); }
+      else { nx.textAlign = 'center'; nx.font = (o.li === 1 ? '500 17px IBM Plex Mono, monospace' : '600 18px IBM Plex Sans, sans-serif'); nx.fillText(o.t, o.x, o.y + o.r + 22); }
+      nx.globalAlpha = 1;
+    });
+    nx.textAlign = 'center'; nx.font = '500 15px IBM Plex Mono, monospace'; nx.fillStyle = V('--mute');
+    ['where I’ve been', 'who I am', 'what I do'].forEach((t, i) => nx.fillText(t, XS[i], 22));
   }
+  const hit = e => { const r = nc.getBoundingClientRect(), x = (e.clientX - r.left) * W / r.width, y = (e.clientY - r.top) * H / r.height; let f = null; nodes.forEach(o => { if (Math.hypot(o.x - x, o.y - y) < o.r + 12) f = o; }); return f; };
   nc.addEventListener('pointermove', e => {
-    const r = nc.getBoundingClientRect(), x = (e.clientX - r.left) * W / r.width, y = (e.clientY - r.top) * H / r.height; let f = null;
-    pos.flat().forEach(o => { if (Math.hypot(o.x - x, o.y - y) < 34) f = o; }); hover = f; drawNet(pulse < 0 ? 4 : pulse);
-    if (f) { tip.innerHTML = '<b>' + esc(f.n.t) + '</b><br>' + esc(f.n.d); tip.classList.add('on'); const fr = $('fig').getBoundingClientRect();
+    const f = hit(e); if (f !== hover) { hover = f; drawNet(pulse < 0 ? 4 : pulse); }
+    if (f) { tip.innerHTML = '<b>' + esc(f.t) + '</b><br>' + esc(f.d); tip.classList.add('on'); const fr = $('fig').getBoundingClientRect();
       tip.style.left = Math.min(e.clientX - fr.left + 14, fr.width - 240) + 'px'; tip.style.top = (e.clientY - fr.top + 14) + 'px'; }
     else tip.classList.remove('on');
   });
   nc.addEventListener('pointerleave', () => { hover = null; tip.classList.remove('on'); drawNet(pulse < 0 ? 4 : pulse); });
   $('run').addEventListener('click', () => {
     if (reduce) { drawNet(4); return; } let t0 = null;
-    const go = ts => { if (!t0) t0 = ts; pulse = (ts - t0) / 650; drawNet(pulse); if (pulse < 4) requestAnimationFrame(go); else { pulse = -1; drawNet(4); } };
+    const go = ts => { if (!t0) t0 = ts; pulse = (ts - t0) / 700; drawNet(pulse); if (pulse < 4) requestAnimationFrame(go); else { pulse = -1; drawNet(4); } };
     requestAnimationFrame(go);
   });
   drawNet(4);
@@ -130,8 +188,8 @@ if (out) {
     whoami: () => 'Shikha Bhat. MS ML @ Carnegie Mellon. ex-Google ML engineer.\nmission: <span class="c">AI for social impact</span>. right now that means ML for maternal health.\noff the clock: sings, reads, travels.',
     research: () => '<span class="c">now</span>   sequential screening for postpartum depression (CMU LASI × UPMC)\n<span class="c">past</span>  agent-based COVID-19 models (ICAART), severity risk (Frontiers)',
     music: () => 'trained in hindustani classical · girly pop on repeat\nlistens to every genre, always for the lyrics first\ncovers → <a href="https://www.youtube.com/channel/UCk3wDccuE9qDIIfIF9JwXhQ" target="_blank" rel="noopener">youtube</a>',
-    reading: () => { const r = BOOKS.filter(b => b.status === 'reading'); return 'currently reading: ' + (r.length ? r.map(b => '<span class="c">' + esc(b.title) + '</span> by ' + esc(b.author)).join(', ') : 'nothing right now') + '\nfull shelf ↓ off the clock'; },
-    travel: () => { const d = TRAVEL.filter(t => t.done).length; return 'bucket list: ' + d + ' / ' + TRAVEL.length + ' done\nnext up: ' + (TRAVEL.filter(t => !t.done).slice(0, 3).map(t => esc(t.place)).join(', ') || 'all done!'); },
+    reading: () => { const r = BOOKS.filter(b => b.status === 'reading'); return 'currently reading: ' + (r.length ? r.map(b => '<span class="c">' + esc(b.title) + '</span>' + (b.author ? ' by ' + esc(b.author) : '')).join(', ') : 'nothing right now') + '\nfull shelf ↓ off the clock'; },
+    travel: () => 'homes: ' + HOMES.map(h => h.place).join(' → ') + '\nbeen to ' + VISITED.length + ' more places · bucket list: ' + BUCKET.slice(0, 4).join(', ') + '…',
     experiences: () => go('experiences.html', '~/experiences'),
     gallery: () => go('gallery.html', '~/gallery'),
     blogs: () => go('blogs.html', '~/blogs'),
@@ -172,19 +230,42 @@ if (shelf) {
   const show = i => {
     const b = BOOKS[i];
     shelf.querySelectorAll('.spine').forEach((el, j) => el.setAttribute('aria-pressed', j === i));
-    info.innerHTML = `<span class="st st-${b.status}">${b.status === 'reading' ? 'currently reading' : b.status === 'next' ? 'up next' : 'read'}</span><b>${esc(b.title)}</b><span class="by">by ${esc(b.author)}</span>${b.note ? `<p>${esc(b.note)}</p>` : ''}`;
+    info.innerHTML = `<span class="st st-${b.status}">${b.status === 'reading' ? 'currently reading' : b.status === 'next' ? 'up next' : 'read'}</span><b>${esc(b.title)}</b>${b.author ? `<span class="by">by ${esc(b.author)}</span>` : ''}${b.note ? `<p>${esc(b.note)}</p>` : ''}`;
   };
-  shelf.innerHTML = BOOKS.map((b, i) => `<button class="spine${b.status === 'reading' ? ' reading' : ''}" role="listitem" style="background:${SPINE[i % SPINE.length]};height:${150 + ((i * 37) % 4) * 14}px" aria-label="${esc(b.title)} by ${esc(b.author)}"><span>${esc(b.title)}</span></button>`).join('');
+  shelf.innerHTML = BOOKS.map((b, i) => `<button class="spine${b.status === 'reading' ? ' reading' : ''}" role="listitem" style="background:${SPINE[i % SPINE.length]};height:${150 + ((i * 37) % 4) * 14}px" aria-label="${esc(b.title)}${b.author ? ' by ' + esc(b.author) : ''}"><span>${esc(b.title)}</span></button>`).join('');
   shelf.querySelectorAll('.spine').forEach((el, i) => el.addEventListener('click', () => show(i)));
   const cur = BOOKS.findIndex(b => b.status === 'reading');
   show(cur < 0 ? 0 : cur);
 }
-const bucket = $('bucket');
-if (bucket) {
-  const done = TRAVEL.filter(t => t.done).length;
-  $('bucket-count').textContent = `${done} of ${TRAVEL.length} done`;
-  $('bucket-bar').style.width = (TRAVEL.length ? done / TRAVEL.length * 100 : 0) + '%';
-  bucket.innerHTML = [...TRAVEL].sort((a, b) => b.done - a.done).map(t => `<li class="${t.done ? 'done' : ''}"><span class="box">${t.done ? '✓' : ''}</span><span><b>${esc(t.place)}</b>${t.note ? `<small>${esc(t.note)}</small>` : ''}</span>${t.done ? '<span class="stamp">been!</span>' : ''}</li>`).join('');
+const homes = $('homes');
+if (homes) {
+  const C = ['#86ccff', '#ffe14d', '#7ce7c0', '#ffb067', '#ff8cc6', '#b99bff'];
+  $('travel-count').textContent = `${HOMES.length} homes · ${VISITED.length} places visited · ${BUCKET.length} on the bucket list`;
+  homes.innerHTML = HOMES.map((h, i) => `<li><span class="dot" style="background:${C[i % C.length]}"></span><b>${esc(h.place)}</b><small>${esc(h.what)}</small></li>`).join('');
+  $('stamps').innerHTML = VISITED.map((v, i) => `<span class="stamp-tag" style="--r:${((i * 37) % 9) - 4}deg;background:${C[i % C.length]}">${esc(v)}</span>`).join('');
+  $('bucket').innerHTML = BUCKET.map(b => `<li><span class="box"></span>${esc(b)}</li>`).join('');
+}
+
+/* ================= HOME: songs on repeat ================= */
+const crate = $('crate');
+if (crate) {
+  const card = $('tracks-card');
+  if (!TRACKS.length && !SPOTIFY_PLAYLIST) { card.hidden = true; }
+  else {
+    const C = ['#ff8cc6', '#86ccff', '#7ce7c0', '#ffe14d', '#b99bff', '#ffb067'];
+    const info = $('track-info');
+    const link = t => t.spotify || 'https://open.spotify.com/search/' + encodeURIComponent(t.title + ' ' + t.artist);
+    const show = i => {
+      const t = TRACKS[i];
+      crate.querySelectorAll('.sleeve').forEach((el, j) => el.setAttribute('aria-pressed', j === i));
+      info.innerHTML = `<span class="st st-reading">on repeat</span><b>${esc(t.title)}</b><span class="by">${esc(t.artist)}</span><a class="btn" href="${esc(link(t))}" target="_blank" rel="noopener">▶ play on Spotify ↗</a>`;
+    };
+    crate.innerHTML = TRACKS.map((t, i) => `<button class="sleeve" style="background:${C[i % C.length]};--r:${((i * 29) % 7) - 3}deg" aria-label="${esc(t.title)} by ${esc(t.artist)}"><span>${esc(t.title)}</span></button>`).join('');
+    crate.querySelectorAll('.sleeve').forEach((el, i) => el.addEventListener('click', () => show(i)));
+    if (TRACKS.length) show(0); else crate.hidden = true;
+    const m = SPOTIFY_PLAYLIST.match(/playlist\/([A-Za-z0-9]+)/);
+    if (m) $('spotify-embed').innerHTML = `<iframe title="My Spotify playlist" src="https://open.spotify.com/embed/playlist/${m[1]}?utm_source=generator" width="100%" height="152" frameborder="0" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>`;
+  }
 }
 
 /* ================= EXPERIENCES: PPD timeline + project filter ================= */

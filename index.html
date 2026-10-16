@@ -41,11 +41,11 @@
         <p class="mission">building <span>AI for social impact</span></p>
         <div class="hats"><span>ml researcher</span><span>software engineer</span><span>singer</span></div>
         <p class="bio">Using AI to make people's lives better is my main purpose, and everything I work on points that way. Right now that means <span class="hl g">ML for maternal health</span> at Carnegie Mellon, where I'm finishing my MS in Machine Learning. Before that I spent two years as an <span class="hl b">ML engineer at Google</span> on Maps and Ads. Off the clock, I <span class="hl p">sing, read and travel</span>.</p>
-        <span class="scribble">hover the network, then press run ↘</span>
+        <span class="scribble">hover a node to trace its path, then press run ↘</span>
       </div>
       <figure class="fig win" id="fig">
         <div class="win-bar"><span class="dots"><i></i><i></i><i></i></span>fig_1_what_went_into_me.png</div>
-        <canvas id="net" width="880" height="605" aria-label="A small neural network: inputs are parts of Shikha's background, the output is Shikha"></canvas>
+        <canvas id="net" width="880" height="640" aria-label="A small neural network: inputs are parts of Shikha's background, the output is Shikha"></canvas>
         <div class="tip" id="tip"></div>
         <figcaption><span>Fig. 1: what went into this person</span><button class="btn fill" id="run">▶ run forward pass</button></figcaption>
       </figure>
@@ -89,6 +89,15 @@
             </div>
           </div>
         </div>
+        <div class="win" id="tracks-card">
+          <div class="win-bar"><span class="dots"><i></i><i></i><i></i></span>listen/on_repeat.m3u</div>
+          <div class="shelf-box">
+            <h3>On repeat</h3>
+            <div class="crate" id="crate" aria-label="Songs on repeat"></div>
+            <div class="book-info" id="track-info" aria-live="polite"></div>
+            <div class="spotify" id="spotify-embed"></div>
+          </div>
+        </div>
         <div class="win">
           <div class="win-bar"><span class="dots"><i></i><i></i><i></i></span>read/bookshelf/</div>
           <div class="shelf-box">
@@ -97,19 +106,23 @@
             <div class="book-info" id="book-info" aria-live="polite"></div>
           </div>
         </div>
-        <div class="win">
-          <div class="win-bar"><span class="dots"><i></i><i></i><i></i></span>travel/bucket_list.txt</div>
+        <div class="win travel-card">
+          <div class="win-bar"><span class="dots"><i></i><i></i><i></i></span>travel/places.txt</div>
           <div class="bucket-box">
             <h3>Travel</h3>
-            <div class="bucket-meter"><span id="bucket-count"></span><div class="bar"><i id="bucket-bar"></i></div></div>
-            <ul class="bucket" id="bucket"></ul>
+            <p class="travel-count" id="travel-count"></p>
+            <div class="travel-cols">
+              <div><h4>homes so far</h4><ol class="homes" id="homes"></ol></div>
+              <div><h4>been there</h4><div class="stamps" id="stamps"></div></div>
+              <div><h4>bucket list</h4><ul class="bucket" id="bucket"></ul></div>
+            </div>
           </div>
         </div>
       </div>
     </section>
   </main>
 
-  <footer class="foot wrap">© 2026 Shikha Bhat · made with lots of chai in Pittsburgh</footer>
+  <footer class="foot wrap">© 2026 Shikha Bhat · made with lots of love</footer>
 </div>
 <script src="assets/js/main.js"></script>
 </body>

@@ -85,7 +85,7 @@ main{display:block;animation:pgin .35s ease-out}
 .scribble{font-family:var(--hand);color:var(--pen);font-size:23px;line-height:1.1;transform:rotate(-3deg);display:inline-block;margin-top:16px}
 .site[data-look="clean"] .scribble{font:400 13px/1.4 var(--mono);color:var(--mute);transform:none}
 .fig{position:relative;margin:0}
-.fig canvas{width:100%;height:auto;aspect-ratio:16/11;display:block;max-width:100%;cursor:crosshair}
+.fig canvas{width:100%;height:auto;aspect-ratio:880/640;display:block;max-width:100%;cursor:crosshair}
 .fig figcaption{font:400 13px/1.4 var(--mono);color:var(--mute);padding:10px 14px;border-top:var(--bw) solid var(--line);display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:center}
 .tip{position:absolute;pointer-events:none;background:var(--ink);color:#fff;font:400 13px/1.4 var(--body);padding:8px 10px;border-radius:6px;max-width:230px;opacity:0;transition:opacity .15s;z-index:2}
 .tip.on{opacity:1}
@@ -366,3 +366,29 @@ main{display:block;animation:pgin .35s ease-out}
 @keyframes flash{0%,40%{box-shadow:0 0 0 6px var(--hl),5px 5px 0 var(--ink)}100%{box-shadow:5px 5px 0 var(--ink)}}
 @media (max-width:1000px){.off{grid-template-columns:1fr 1fr}.off > :first-child{grid-column:1/-1}.off > :first-child .vinyl{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}}
 @media (max-width:640px){.off{grid-template-columns:1fr}.off > :first-child .vinyl{grid-template-columns:1fr}}
+
+/* ---------- off the clock v2: 2-column grid, songs, travel ---------- */
+.off{grid-template-columns:repeat(2,minmax(0,1fr))}
+.off .vinyl{grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:center}
+.travel-card{grid-column:1/-1}
+.crate{display:flex;gap:10px;flex-wrap:wrap;padding:6px 0}
+.sleeve{appearance:none;cursor:pointer;width:96px;aspect-ratio:1;border:2px solid var(--ink);border-radius:6px;padding:8px;display:flex;align-items:flex-end;text-align:left;font:600 11.5px/1.15 var(--mono);color:var(--ink);transform:rotate(var(--r,0deg));transition:transform .2s;box-shadow:3px 3px 0 var(--ink);background-image:radial-gradient(circle at 70% 30%,rgba(255,255,255,.55) 0 14px,transparent 15px)}
+.sleeve:hover{transform:rotate(0) translateY(-6px)}
+.sleeve[aria-pressed="true"]{outline:3px solid var(--ink);outline-offset:3px}
+#track-info .btn{margin-top:12px}
+.spotify iframe{border-radius:12px;margin-top:14px;border:0;display:block}
+.travel-count{margin:-4px 0 16px;font:500 12.5px/1.4 var(--mono);color:var(--mute)}
+.travel-cols{display:grid;grid-template-columns:1fr 1.6fr 1fr;gap:26px}
+.travel-cols > *{min-width:0}
+.travel-cols h4{margin:0 0 10px;font:600 12px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--pen)}
+.homes{list-style:none;margin:0;padding:0 0 0 14px;border-left:2px dashed #b5c8e2;display:grid;gap:10px}
+.homes li{position:relative;display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
+.homes .dot{position:absolute;left:-22px;top:4px;width:14px;height:14px;border-radius:50%;border:2px solid var(--ink)}
+.homes b{font-weight:600}
+.homes small{font:400 12px/1 var(--mono);color:var(--mute)}
+.stamps{display:flex;flex-wrap:wrap;gap:10px}
+.stamp-tag{font:600 12.5px/1 var(--mono);padding:8px 10px;border:2px dashed var(--ink);border-radius:8px;transform:rotate(var(--r));color:var(--ink);transition:transform .2s}
+.stamp-tag:hover{transform:rotate(0) scale(1.08)}
+.bucket li{grid-template-columns:22px 1fr;padding:8px 12px;font-weight:600;font-size:15px}
+@media (max-width:1000px){.off > :first-child{grid-column:auto}.travel-cols{grid-template-columns:1fr 1fr}.travel-cols > :nth-child(2){grid-column:1/-1;order:3}}
+@media (max-width:640px){.off{grid-template-columns:1fr}.off .vinyl{grid-template-columns:1fr}.travel-cols{grid-template-columns:1fr}}
