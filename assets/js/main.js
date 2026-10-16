@@ -194,7 +194,7 @@ if (out) {
   const inp = $('term-in'), tb = $('term-body');
   const go = (url, label) => { setTimeout(() => { location.href = url; }, 450); return 'opening ' + label + '…'; };
   const cmds = {
-    help: () => 'commands: <span class="k">whoami</span> <span class="k">research</span> <span class="k">music</span> <span class="k">reading</span> <span class="k">travel</span>\npages:    <span class="k">experiences</span> <span class="k">off-the-clock</span> <span class="k">blogs</span> <span class="k">contact</span>\nalso:     <span class="k">clear</span>',
+    help: () => 'commands: <span class="k">whoami</span> <span class="k">where is she</span> <span class="k">research</span> <span class="k">music</span> <span class="k">reading</span> <span class="k">travel</span>\npages:    <span class="k">experiences</span> <span class="k">off-the-clock</span> <span class="k">blogs</span> <span class="k">contact</span>\nalso:     <span class="k">clear</span>',
     whoami: () => 'Shikha Bhat. MS ML @ Carnegie Mellon. ex-Google ML engineer.\nbuilds ML for maternal health. cares most about AI for social impact.\noff the clock: sings, reads, travels.',
     research: () => '<span class="c">now</span>   sequential screening for postpartum depression (CMU LASI × UPMC)\n<span class="c">past</span>  agent-based COVID-19 models (ICAART), severity risk (Frontiers)',
     music: () => 'trained in hindustani classical · girly pop on repeat\nlistens to every genre, always for the lyrics first\ncovers → <a href="https://www.youtube.com/channel/UCk3wDccuE9qDIIfIF9JwXhQ" target="_blank" rel="noopener">youtube</a>',
@@ -206,9 +206,11 @@ if (out) {
     blogs: () => go('blogs.html', '~/blogs'),
     contact: () => go('contact.html', '~/contact'),
     ls: () => 'experiences/  off-the-clock/  blogs/  contact',
-    sudo: a => a.join(' ') === 'hire shikha' ? 'permission granted ✨ graduating Dec 2026. see <span class="k">contact</span>.' : 'try: sudo hire shikha',
+    sudo: a => { if (a.join(' ') !== 'hire shikha') return 'try: sudo hire shikha'; setTimeout(() => { location.href = 'contact.html'; }, 1300); return 'permission granted ✨ graduating Dec 2026.\nopening ~/contact so you can say hi…'; },
+    where: () => { let t = ''; try { t = new Date().toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', timeZone: 'America/New_York' }); } catch (e) {} return 'she\'s in <span class="c">Pittsburgh, PA</span>, at Carnegie Mellon' + (t ? '\nlocal time: ' + t : ''); },
     clear: () => { out.innerHTML = ''; return null; },
   };
+  cmds.whereis = cmds.where;
   cmds.cd = a => { const t = (a[0] || '').replace('~/', '').replace(/\/$/, ''); return cmds[t] && t !== 'cd' ? cmds[t]() : 'cd: try ~/experiences, ~/off-the-clock, ~/blogs or ~/contact'; };
   function run(raw) {
     raw = raw.trim(); if (!raw) return; const [c, ...a] = raw.split(/\s+/);
