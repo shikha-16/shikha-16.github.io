@@ -323,3 +323,46 @@ main{display:block;animation:pgin .35s ease-out}
 .pn.next{text-align:right;grid-column:2}
 @media (max-width:900px){.post-layout{grid-template-columns:1fr}.toc{display:none}}
 @media (max-width:560px){.post-nav{grid-template-columns:1fr}.pn.next{grid-column:auto}.post-hero{min-height:180px;padding:20px}.article-body{font-size:17px}}
+
+/* ---------- home: mission line, clickable "right now", off the clock ---------- */
+.mission{font-family:var(--display);font-size:clamp(24px,2.6vw,32px);line-height:1.15;margin:14px 0 0}
+.mission span{font-style:italic;background:linear-gradient(transparent 55%,var(--hl) 55%);padding:0 4px}
+.now-link{text-decoration:none;display:block;transition:transform .15s,box-shadow .15s}
+.now-link:hover{transform:translate(-3px,-3px);box-shadow:8px 8px 0 var(--ink)}
+.now-link .more{display:inline-block;margin-top:12px;font:600 12.5px/1 var(--mono);color:var(--pen)}
+.now-link:hover .more{text-decoration:underline}
+.term .term-body{height:240px}
+.off{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px;align-items:start}
+.off .vinyl{grid-template-columns:1fr;padding:20px}
+.off .v-stage{max-width:320px;margin:0 auto;width:100%}
+.off h3,.shelf-box h3,.bucket-box h3{font-family:var(--display);font-weight:400;font-size:30px;line-height:1;margin:0 0 12px}
+.shelf-box,.bucket-box{padding:20px}
+.shelf{display:flex;align-items:flex-end;gap:5px;padding:0 10px;height:200px;border-bottom:10px solid #c79a6b;border-radius:2px;box-shadow:0 6px 0 #a87d52}
+.spine{appearance:none;cursor:pointer;width:42px;border:2px solid var(--ink);border-radius:4px 4px 0 0;padding:10px 0;display:flex;justify-content:center;transition:transform .2s;position:relative}
+.spine span{writing-mode:vertical-rl;transform:rotate(180deg);font:600 11.5px/1.1 var(--mono);color:var(--ink);overflow:hidden;max-height:100%;text-align:left}
+.spine:hover{transform:translateY(-8px)}
+.spine.reading{transform:rotate(-8deg) translateY(-4px);margin:0 10px 0 6px}
+.spine.reading::after{content:"";position:absolute;top:-2px;right:8px;width:8px;height:26px;background:var(--pen);clip-path:polygon(0 0,100% 0,100% 100%,50% 75%,0 100%)}
+.spine[aria-pressed="true"]{outline:3px solid var(--ink);outline-offset:2px}
+.book-info{margin-top:18px;min-height:96px}
+.book-info b{display:block;font-family:var(--display);font-weight:400;font-size:24px;line-height:1.1;margin-top:8px}
+.book-info .by{font:400 13px/1.4 var(--mono);color:var(--mute)}
+.book-info p{margin:8px 0 0;color:var(--mute);font-size:15px}
+.st{font:600 11px/1 var(--mono);padding:4px 8px;border-radius:999px;border:1.5px solid var(--ink)}
+.st-reading{background:var(--c1)}.st-read{background:var(--c3)}.st-next{background:var(--c2)}
+.bucket-meter{display:flex;align-items:center;gap:10px;font:500 12.5px/1 var(--mono);color:var(--mute);margin-bottom:14px}
+.bucket-meter .bar{flex:1;height:10px;border:1.5px solid var(--ink);border-radius:999px;overflow:hidden;background:#fff}
+.bucket-meter .bar i{display:block;height:100%;background:linear-gradient(90deg,var(--c3),var(--c4));transition:width .6s}
+.bucket{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.bucket li{display:grid;grid-template-columns:22px 1fr auto;gap:10px;align-items:center;padding:10px 12px;border:1.5px dashed #a9c3e3;border-radius:12px;background:#fff}
+.bucket li.done{border-style:solid;border-color:var(--ink);background:#eefbf5}
+.bucket .box{width:20px;height:20px;border:2px solid var(--ink);border-radius:5px;display:grid;place-items:center;font:700 12px/1 var(--mono);background:#fff}
+.bucket li.done .box{background:var(--c3)}
+.bucket b{font-weight:600;font-size:15px;display:block;line-height:1.3}
+.bucket small{display:block;font:400 12px/1.3 var(--mono);color:var(--mute)}
+.bucket .stamp{font:700 11px/1 var(--mono);color:var(--pen);border:2px solid var(--pen);border-radius:6px;padding:4px 6px;transform:rotate(-8deg);text-transform:uppercase}
+[id]{scroll-margin-top:80px}
+.org:target,#research:target .research{animation:flash 1.6s ease-out}
+@keyframes flash{0%,40%{box-shadow:0 0 0 6px var(--hl),5px 5px 0 var(--ink)}100%{box-shadow:5px 5px 0 var(--ink)}}
+@media (max-width:1000px){.off{grid-template-columns:1fr 1fr}.off > :first-child{grid-column:1/-1}.off > :first-child .vinyl{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}}
+@media (max-width:640px){.off{grid-template-columns:1fr}.off > :first-child .vinyl{grid-template-columns:1fr}}

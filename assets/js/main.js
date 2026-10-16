@@ -33,6 +33,28 @@ const BLOGS = [
   {"title": "Teach Zari with Nirmaan", "url": "blog/teach-zari.html", "blurb": "Teaching kids in a village near campus, and leading the team that made it happen.", "tag": "volunteering", "year": "2019", "filter": "community", "cover": "Teach Zari", "color": "#ff8cc6", "pat": 2}
 ];
 
+
+// Bookshelf on the home page. status: 'reading' (shown pulled out), 'read', or 'next'.
+// PLACEHOLDERS: replace with your real books.
+const BOOKS = [
+  { title: 'Book I am reading now', author: 'Author name', status: 'reading', note: 'A line about why you picked it up.' },
+  { title: 'A favorite book', author: 'Author name', status: 'read', note: 'One line on why you loved it.' },
+  { title: 'Another favorite', author: 'Author name', status: 'read', note: '' },
+  { title: 'A book that changed my mind', author: 'Author name', status: 'read', note: '' },
+  { title: 'Up next on my list', author: 'Author name', status: 'next', note: '' },
+];
+
+// Travel bucket list on the home page. done: true = been there.
+// PLACEHOLDERS: replace with your real places.
+const TRAVEL = [
+  { place: 'A place I have been', note: 'year or a tiny memory', done: true },
+  { place: 'Another place I have been', note: '', done: true },
+  { place: 'Dream destination 1', note: '', done: false },
+  { place: 'Dream destination 2', note: '', done: false },
+  { place: 'Dream destination 3', note: '', done: false },
+  { place: 'Dream destination 4', note: '', done: false },
+];
+
 /* ================= SHARED ================= */
 (() => {
 const site = document.getElementById('site');
@@ -51,9 +73,9 @@ const nc = $('net');
 if (nc) {
   const nx = nc.getContext('2d'), tip = $('tip');
   const L = [
-    [{ t: 'BITS Goa', d: 'Computer science, plus a minor in Philosophy, Economics and Politics' }, { t: 'Google', d: 'ML engineer on Maps and Ads, and three internships' }, { t: 'Uber', d: 'Software engineering intern on the streaming platform' }, { t: 'CMU', d: 'MS Machine Learning, Dec 2026' }, { t: 'Music', d: 'Trained singer, a bit of guitar, covers on YouTube' }],
+    [{ t: 'BITS Goa', d: 'Computer science, plus a minor in Philosophy, Economics and Politics' }, { t: 'Google', d: 'ML engineer on Maps and Ads, and three internships' }, { t: 'Uber', d: 'Software engineering intern on the streaming platform' }, { t: 'CMU', d: 'MS Machine Learning, Dec 2026' }, { t: 'Music', d: 'Trained in Hindustani classical, girly pop on repeat, covers on YouTube' }],
     [{ t: 'h₁', d: 'curiosity' }, { t: 'h₂', d: 'rigor' }, { t: 'h₃', d: 'shipping things' }, { t: 'h₄', d: 'care for people' }],
-    [{ t: 'impact', d: 'ML for health and society' }, { t: 'craft', d: 'clean, scalable systems' }, { t: 'joy', d: 'music, writing, community' }],
+    [{ t: 'impact', d: 'AI for social impact: my main purpose' }, { t: 'craft', d: 'clean, scalable systems' }, { t: 'joy', d: 'singing, reading and travel' }],
     [{ t: 'Shikha', d: 'all of the above, still training' }],
   ];
   const W = 880, H = 605, pos = [];
@@ -104,10 +126,12 @@ if (out) {
   const inp = $('term-in'), tb = $('term-body');
   const go = (url, label) => { setTimeout(() => { location.href = url; }, 450); return 'opening ' + label + '…'; };
   const cmds = {
-    help: () => 'commands: <span class="k">whoami</span> <span class="k">research</span> <span class="k">music</span>\npages:    <span class="k">experiences</span> <span class="k">gallery</span> <span class="k">blogs</span> <span class="k">contact</span>\nalso:     <span class="k">clear</span>',
-    whoami: () => 'Shikha Bhat. MS ML @ Carnegie Mellon. ex-Google ML engineer.\nbuilds ML for maternal health. sings on weekends.',
+    help: () => 'commands: <span class="k">whoami</span> <span class="k">research</span> <span class="k">music</span> <span class="k">reading</span> <span class="k">travel</span>\npages:    <span class="k">experiences</span> <span class="k">gallery</span> <span class="k">blogs</span> <span class="k">contact</span>\nalso:     <span class="k">clear</span>',
+    whoami: () => 'Shikha Bhat. MS ML @ Carnegie Mellon. ex-Google ML engineer.\nmission: <span class="c">AI for social impact</span>. right now that means ML for maternal health.\noff the clock: sings, reads, travels.',
     research: () => '<span class="c">now</span>   sequential screening for postpartum depression (CMU LASI × UPMC)\n<span class="c">past</span>  agent-based COVID-19 models (ICAART), severity risk (Frontiers)',
-    music: () => 'trained singer · a bit of guitar · girly pop on repeat\ncovers → <a href="https://www.youtube.com/channel/UCk3wDccuE9qDIIfIF9JwXhQ" target="_blank" rel="noopener">youtube</a>',
+    music: () => 'trained in hindustani classical · girly pop on repeat\nlistens to every genre, always for the lyrics first\ncovers → <a href="https://www.youtube.com/channel/UCk3wDccuE9qDIIfIF9JwXhQ" target="_blank" rel="noopener">youtube</a>',
+    reading: () => { const r = BOOKS.filter(b => b.status === 'reading'); return 'currently reading: ' + (r.length ? r.map(b => '<span class="c">' + esc(b.title) + '</span> by ' + esc(b.author)).join(', ') : 'nothing right now') + '\nfull shelf ↓ off the clock'; },
+    travel: () => { const d = TRAVEL.filter(t => t.done).length; return 'bucket list: ' + d + ' / ' + TRAVEL.length + ' done\nnext up: ' + (TRAVEL.filter(t => !t.done).slice(0, 3).map(t => esc(t.place)).join(', ') || 'all done!'); },
     experiences: () => go('experiences.html', '~/experiences'),
     gallery: () => go('gallery.html', '~/gallery'),
     blogs: () => go('blogs.html', '~/blogs'),
@@ -137,6 +161,30 @@ if (disc) {
   disc.addEventListener('pointermove', e => { if (dragA === null) return; const a = ang(e); let d = a - dragA; if (d > 180) d -= 360; if (d < -180) d += 360; rot += d; vel = d; dragA = a; });
   ['pointerup', 'pointercancel'].forEach(t => disc.addEventListener(t, () => dragA = null));
   spinBtn.addEventListener('click', () => { spinning = !spinning; disc.classList.toggle('out', spinning); spinBtn.textContent = spinning ? '❚❚ Stop' : '▶ Spin it'; });
+}
+
+
+/* ================= HOME: bookshelf + bucket list ================= */
+const shelf = $('shelf');
+if (shelf) {
+  const SPINE = ['#ff8cc6', '#86ccff', '#7ce7c0', '#ffe14d', '#b99bff', '#ffb067'];
+  const info = $('book-info');
+  const show = i => {
+    const b = BOOKS[i];
+    shelf.querySelectorAll('.spine').forEach((el, j) => el.setAttribute('aria-pressed', j === i));
+    info.innerHTML = `<span class="st st-${b.status}">${b.status === 'reading' ? 'currently reading' : b.status === 'next' ? 'up next' : 'read'}</span><b>${esc(b.title)}</b><span class="by">by ${esc(b.author)}</span>${b.note ? `<p>${esc(b.note)}</p>` : ''}`;
+  };
+  shelf.innerHTML = BOOKS.map((b, i) => `<button class="spine${b.status === 'reading' ? ' reading' : ''}" role="listitem" style="background:${SPINE[i % SPINE.length]};height:${150 + ((i * 37) % 4) * 14}px" aria-label="${esc(b.title)} by ${esc(b.author)}"><span>${esc(b.title)}</span></button>`).join('');
+  shelf.querySelectorAll('.spine').forEach((el, i) => el.addEventListener('click', () => show(i)));
+  const cur = BOOKS.findIndex(b => b.status === 'reading');
+  show(cur < 0 ? 0 : cur);
+}
+const bucket = $('bucket');
+if (bucket) {
+  const done = TRAVEL.filter(t => t.done).length;
+  $('bucket-count').textContent = `${done} of ${TRAVEL.length} done`;
+  $('bucket-bar').style.width = (TRAVEL.length ? done / TRAVEL.length * 100 : 0) + '%';
+  bucket.innerHTML = [...TRAVEL].sort((a, b) => b.done - a.done).map(t => `<li class="${t.done ? 'done' : ''}"><span class="box">${t.done ? '✓' : ''}</span><span><b>${esc(t.place)}</b>${t.note ? `<small>${esc(t.note)}</small>` : ''}</span>${t.done ? '<span class="stamp">been!</span>' : ''}</li>`).join('');
 }
 
 /* ================= EXPERIENCES: PPD timeline + project filter ================= */
