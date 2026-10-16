@@ -2,7 +2,7 @@
    One script for every page. Each block below only runs if its page elements exist.
 
    EASY EDITS
-   - Gallery photos: put images in images/gallery/ and set `img` in GALLERY below.
+   - Scrapbook photos (off-the-clock page): put images in images/gallery/ and set `img` in GALLERY below.
    - Blog posts: edit BLOGS below.
 */
 
@@ -97,7 +97,7 @@ const NET = {
       { id: 'research', t: 'Research', d: 'ML for maternal health; earlier, COVID-19 modelling' },
       { id: 'wit', t: 'Women in Tech', d: 'Founded a 550+ member community; mentoring' },
       { id: 'art', t: 'Art + Music', d: 'Trained in Hindustani classical; covers on YouTube' } ],
-    [ { id: 'me', t: 'Shikha', d: 'Building AI for social impact' } ],
+    [ { id: 'me', t: 'Shikha', d: 'All of the above, still training' } ],
   ],
   wires: {
     bits: ['curiosity', 'passion', 'compassion'],
@@ -154,7 +154,7 @@ if (nc) {
       nx.lineWidth = hover === o ? 3.4 : 2; nx.strokeStyle = ink; nx.stroke();
       nx.fillStyle = ink;
       if (o.li === 0) { nx.textAlign = 'right'; nx.font = '500 19px IBM Plex Sans, sans-serif'; nx.fillText(o.t, o.x - 24, o.y + 7); }
-      else if (o.li === 3) { nx.textAlign = 'center'; nx.font = 'italic 38px Instrument Serif, serif'; nx.fillText(o.t, o.x, o.y + 76); nx.font = '500 15px IBM Plex Mono, monospace'; nx.fillStyle = V('--pen'); nx.fillText('AI for social impact', o.x, o.y + 98); }
+      else if (o.li === 3) { nx.textAlign = 'center'; nx.font = 'italic 38px Instrument Serif, serif'; nx.fillText(o.t, o.x, o.y + 76); }
       else { nx.textAlign = 'center'; nx.font = (o.li === 1 ? '500 17px IBM Plex Mono, monospace' : '600 18px IBM Plex Sans, sans-serif'); nx.fillText(o.t, o.x, o.y + o.r + 22); }
       nx.globalAlpha = 1;
     });
@@ -184,21 +184,22 @@ if (out) {
   const inp = $('term-in'), tb = $('term-body');
   const go = (url, label) => { setTimeout(() => { location.href = url; }, 450); return 'opening ' + label + '…'; };
   const cmds = {
-    help: () => 'commands: <span class="k">whoami</span> <span class="k">research</span> <span class="k">music</span> <span class="k">reading</span> <span class="k">travel</span>\npages:    <span class="k">experiences</span> <span class="k">gallery</span> <span class="k">blogs</span> <span class="k">contact</span>\nalso:     <span class="k">clear</span>',
-    whoami: () => 'Shikha Bhat. MS ML @ Carnegie Mellon. ex-Google ML engineer.\nmission: <span class="c">AI for social impact</span>. right now that means ML for maternal health.\noff the clock: sings, reads, travels.',
+    help: () => 'commands: <span class="k">whoami</span> <span class="k">research</span> <span class="k">music</span> <span class="k">reading</span> <span class="k">travel</span>\npages:    <span class="k">experiences</span> <span class="k">off-the-clock</span> <span class="k">blogs</span> <span class="k">contact</span>\nalso:     <span class="k">clear</span>',
+    whoami: () => 'Shikha Bhat. MS ML @ Carnegie Mellon. ex-Google ML engineer.\nbuilds ML for maternal health. cares most about AI for social impact.\noff the clock: sings, reads, travels.',
     research: () => '<span class="c">now</span>   sequential screening for postpartum depression (CMU LASI × UPMC)\n<span class="c">past</span>  agent-based COVID-19 models (ICAART), severity risk (Frontiers)',
     music: () => 'trained in hindustani classical · girly pop on repeat\nlistens to every genre, always for the lyrics first\ncovers → <a href="https://www.youtube.com/channel/UCk3wDccuE9qDIIfIF9JwXhQ" target="_blank" rel="noopener">youtube</a>',
-    reading: () => { const r = BOOKS.filter(b => b.status === 'reading'); return 'currently reading: ' + (r.length ? r.map(b => '<span class="c">' + esc(b.title) + '</span>' + (b.author ? ' by ' + esc(b.author) : '')).join(', ') : 'nothing right now') + '\nfull shelf ↓ off the clock'; },
+    reading: () => { const r = BOOKS.filter(b => b.status === 'reading'); return 'currently reading: ' + (r.length ? r.map(b => '<span class="c">' + esc(b.title) + '</span>' + (b.author ? ' by ' + esc(b.author) : '')).join(', ') : 'nothing right now') + '\nfull shelf → <a href="off-the-clock.html">~/off-the-clock</a>'; },
     travel: () => 'homes: ' + HOMES.map(h => h.place).join(' → ') + '\nbeen to ' + VISITED.length + ' more places · bucket list: ' + BUCKET.slice(0, 4).join(', ') + '…',
     experiences: () => go('experiences.html', '~/experiences'),
-    gallery: () => go('gallery.html', '~/gallery'),
+    'off-the-clock': () => go('off-the-clock.html', '~/off-the-clock'),
+    gallery: () => go('off-the-clock.html#scrapbook', '~/off-the-clock'),
     blogs: () => go('blogs.html', '~/blogs'),
     contact: () => go('contact.html', '~/contact'),
-    ls: () => 'experiences/  gallery/  blogs/  contact  off_the_clock.mp3',
+    ls: () => 'experiences/  off-the-clock/  blogs/  contact',
     sudo: a => a.join(' ') === 'hire shikha' ? 'permission granted ✨ graduating Dec 2026. see <span class="k">contact</span>.' : 'try: sudo hire shikha',
     clear: () => { out.innerHTML = ''; return null; },
   };
-  cmds.cd = a => { const t = (a[0] || '').replace('~/', '').replace(/\/$/, ''); return cmds[t] && t !== 'cd' ? cmds[t]() : 'cd: try ~/experiences, ~/gallery, ~/blogs or ~/contact'; };
+  cmds.cd = a => { const t = (a[0] || '').replace('~/', '').replace(/\/$/, ''); return cmds[t] && t !== 'cd' ? cmds[t]() : 'cd: try ~/experiences, ~/off-the-clock, ~/blogs or ~/contact'; };
   function run(raw) {
     raw = raw.trim(); if (!raw) return; const [c, ...a] = raw.split(/\s+/);
     out.insertAdjacentHTML('beforeend', '<span class="k">$</span> ' + esc(raw) + '\n');
@@ -292,7 +293,7 @@ if (board) {
       ? `<img src="${esc(g.img)}" alt="${esc(g.title)}" loading="lazy" draggable="false">`
       : `<div class="ph" style="background:${TINTS[i % 8]}"><div><small>photo</small>${esc(g.title)}</div></div>`}<div class="cap">${esc(g.caption)}</div></div>`).join('')
     + `<div class="it pass"><div class="m"><div class="air">Shikha Air · boarding pass</div><div class="route"><span>GOI<small>BITS Goa</small></span>→<span>BLR<small>Google</small></span>→<span>PIT<small>CMU</small></span></div><dl><dt>Class</dt><dt>Seat</dt><dt>Gate</dt><dd>MS ML</dd><dd>LASI lab</dd><dd>Dec 2026</dd></dl></div><div class="s">2019 → 2026<br>S. BHAT<br>Bags: 1 guitar</div></div>`
-    + ['ex-Googler', "CMU '26", 'ML nerd', 'chai-powered'].map((t, i) => `<div class="it stk" style="background:${TINTS[(i + 2) % 8]}">${t}</div>`).join('');
+    + ['ex-Googler', "CMU '26", 'ML nerd', 'bookworm'].map((t, i) => `<div class="it stk" style="background:${TINTS[(i + 2) % 8]}">${t}</div>`).join('');
   const items = [...board.children];
   // [left %, top px, rotation] for each item in order: 8 photos, boarding pass, 4 stickers
   const SCATTER = [[2, 30, -5], [22, 10, 4], [42, 40, -3], [62, 6, 5], [80, 46, -6], [6, 360, 3], [28, 330, -4], [52, 360, 6], [66, 300, -2], [44, 250, -8], [8, 640, 6], [30, 640, -4], [50, 630, 3], [72, 640, -5]];

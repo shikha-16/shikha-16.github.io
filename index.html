@@ -9,11 +9,11 @@
   <meta property="og:description" content="ML researcher at Carnegie Mellon, ex-Google ML engineer, and singer.">
   <meta property="og:type" content="website">
   <meta name="theme-color" content="#f2f7fd">
-  <link rel="icon" href="assets/favicon.svg?v=2" type="image/svg+xml">
+  <link rel="icon" href="assets/favicon.svg?v=3" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Caveat:wght@500;700&family=Pixelify+Sans:wght@500;600&display=swap">
-  <link rel="stylesheet" href="assets/css/style.css?v=2">
+  <link rel="stylesheet" href="assets/css/style.css?v=3">
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
@@ -24,7 +24,7 @@
       <nav class="mb-nav" aria-label="Site pages">
         <a href="index.html" aria-current="page">~/home</a>
         <a href="experiences.html">~/experiences</a>
-        <a href="gallery.html">~/gallery</a>
+        <a href="off-the-clock.html">~/off-the-clock</a>
         <a href="blogs.html">~/blogs</a>
         <a href="contact.html">~/contact</a>
       </nav>
@@ -38,9 +38,8 @@
     <section class="hero">
       <div>
         <h1 class="name">Shikha <em>Bhat</em></h1>
-        <p class="mission">building <span>AI for social impact</span></p>
         <div class="hats"><span>ml researcher</span><span>software engineer</span><span>singer</span></div>
-        <p class="bio">Using AI to make people's lives better is my main purpose, and everything I work on points that way. Right now that means <span class="hl g">ML for maternal health</span> at Carnegie Mellon, where I'm finishing my MS in Machine Learning. Before that I spent two years as an <span class="hl b">ML engineer at Google</span> on Maps and Ads. Off the clock, I <span class="hl p">sing, read and travel</span>.</p>
+        <p class="bio">I'm finishing my MS in Machine Learning at Carnegie Mellon, where I build <span class="hl g">ML for maternal health</span>. Before that I spent two years as an <span class="hl b">ML engineer at Google</span> on Maps and Ads. What I care about most is using AI for social impact. <a class="off-link" href="off-the-clock.html">Off the clock</a>, I <span class="hl p">sing, read and travel</span>.</p>
         <span class="scribble">hover a node to trace its path, then press run ↘</span>
       </div>
       <figure class="fig win" id="fig">
@@ -67,63 +66,15 @@
           <div class="term-out" id="term-out"><span class="c">shikhaOS</span> · type <span class="k">help</span>, or tap a command below
 </div>
           <form class="term-form" id="term-form"><label for="term-in">shikha@cmu:~$</label><input id="term-in" autocomplete="off" spellcheck="false" placeholder="whoami"></form>
-          <div class="term-hints"><button data-cmd="whoami">whoami</button><button data-cmd="research">research</button><button data-cmd="music">music</button><button data-cmd="reading">reading</button><button data-cmd="travel">travel</button><button data-cmd="sudo hire shikha">sudo hire shikha</button></div>
+          <div class="term-hints"><button data-cmd="whoami">whoami</button><button data-cmd="research">research</button><button data-cmd="music">music</button><button data-cmd="reading">reading</button><button data-cmd="off-the-clock">off-the-clock</button><button data-cmd="sudo hire shikha">sudo hire shikha</button></div>
         </div>
       </div>
     </section>
 
-    <section class="sec" style="padding-top:0">
-      <div class="h"><span class="num">§2</span><h2>Off the clock</h2><span class="note">I sing, read and travel</span></div>
-      <div class="off">
-        <div class="win">
-          <div class="win-bar"><span class="dots"><i></i><i></i><i></i></span>sing/covers.mp3</div>
-          <div class="vinyl">
-            <div class="v-stage">
-              <div class="v-disc" id="disc" role="img" aria-label="A vinyl record you can drag to spin"><div class="v-shine"></div><div class="v-label"><span>COVERS</span></div></div>
-              <div class="v-sleeve"><small><span>Side B</span><span>Vol. 1</span></small><b>Covers by Shikha</b><small><span>Pittsburgh</span><span>2026</span></small></div>
-            </div>
-            <div class="v-copy">
-              <h3>Sing</h3>
-              <ul class="v-list"><li><span>01</span>Trained in Hindustani classical</li><li><span>02</span>Girly pop on repeat</li><li><span>03</span>Every genre, lyrics first</li><li><span>04</span>Covers on YouTube</li></ul>
-              <div class="v-row"><button class="btn" id="spin">▶ Spin it</button><a class="btn fill" href="https://www.youtube.com/channel/UCk3wDccuE9qDIIfIF9JwXhQ" target="_blank" rel="noopener">Watch my covers ↗</a></div>
-            </div>
-          </div>
-        </div>
-        <div class="win" id="tracks-card">
-          <div class="win-bar"><span class="dots"><i></i><i></i><i></i></span>listen/on_repeat.m3u</div>
-          <div class="shelf-box">
-            <h3>On repeat</h3>
-            <div class="crate" id="crate" aria-label="Songs on repeat"></div>
-            <div class="book-info" id="track-info" aria-live="polite"></div>
-            <div class="spotify" id="spotify-embed"></div>
-          </div>
-        </div>
-        <div class="win">
-          <div class="win-bar"><span class="dots"><i></i><i></i><i></i></span>read/bookshelf/</div>
-          <div class="shelf-box">
-            <h3>Read</h3>
-            <div class="shelf" id="shelf" role="list" aria-label="Bookshelf"></div>
-            <div class="book-info" id="book-info" aria-live="polite"></div>
-          </div>
-        </div>
-        <div class="win travel-card">
-          <div class="win-bar"><span class="dots"><i></i><i></i><i></i></span>travel/places.txt</div>
-          <div class="bucket-box">
-            <h3>Travel</h3>
-            <p class="travel-count" id="travel-count"></p>
-            <div class="travel-cols">
-              <div><h4>homes so far</h4><ol class="homes" id="homes"></ol></div>
-              <div><h4>been there</h4><div class="stamps" id="stamps"></div></div>
-              <div><h4>bucket list</h4><ul class="bucket" id="bucket"></ul></div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
   </main>
 
   <footer class="foot wrap">© 2026 Shikha Bhat · made with lots of love</footer>
 </div>
-<script src="assets/js/main.js?v=2"></script>
+<script src="assets/js/main.js?v=3"></script>
 </body>
 </html>

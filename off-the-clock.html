@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Off the clock · Shikha Bhat</title>
+  <meta name="description" content="Singing, reading, travel, and a scrapbook of snaps from my life.">
+  <meta property="og:title" content="Off the clock · Shikha Bhat">
+  <meta property="og:description" content="Singing, reading, travel, and a scrapbook of snaps from my life.">
+  <meta property="og:type" content="website">
+  <meta name="theme-color" content="#f2f7fd">
+  <link rel="icon" href="assets/favicon.svg?v=3" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Caveat:wght@500;700&family=Pixelify+Sans:wght@500;600&display=swap">
+  <link rel="stylesheet" href="assets/css/style.css?v=3">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="site" id="site" data-look="color">
+  <header class="menubar">
+    <div class="wrap">
+      <a class="mb-logo" href="index.html"><i></i>Shikha Bhat</a>
+      <nav class="mb-nav" aria-label="Site pages">
+        <a href="index.html">~/home</a>
+        <a href="experiences.html">~/experiences</a>
+        <a href="off-the-clock.html" aria-current="page">~/off-the-clock</a>
+        <a href="blogs.html">~/blogs</a>
+        <a href="contact.html">~/contact</a>
+      </nav>
+      <span class="mb-clock" id="clock">Pittsburgh</span>
+    </div>
+  </header>
+
+  <main class="wrap" id="main">
+
+    <div class="meta"><span>Off the clock</span><span>I sing, read and travel</span></div>
+    <section class="sec">
+      <div class="h"><span class="num">§1</span><h2>Sing, read, travel</h2></div>
+      <div class="off">
+        <div class="win">
+          <div class="win-bar"><span class="dots"><i></i><i></i><i></i></span>sing/covers.mp3</div>
+          <div class="vinyl">
+            <div class="v-stage">
+              <div class="v-disc" id="disc" role="img" aria-label="A vinyl record you can drag to spin"><div class="v-shine"></div><div class="v-label"><span>COVERS</span></div></div>
+              <div class="v-sleeve"><small><span>Side B</span><span>Vol. 1</span></small><b>Covers by Shikha</b><small><span>Pittsburgh</span><span>2026</span></small></div>
+            </div>
+            <div class="v-copy">
+              <h3>Sing</h3>
+              <ul class="v-list"><li><span>01</span>Trained in Hindustani classical</li><li><span>02</span>Girly pop on repeat</li><li><span>03</span>Every genre, lyrics first</li><li><span>04</span>Covers on YouTube</li></ul>
+              <div class="v-row"><button class="btn" id="spin">▶ Spin it</button><a class="btn fill" href="https://www.youtube.com/channel/UCk3wDccuE9qDIIfIF9JwXhQ" target="_blank" rel="noopener">Watch my covers ↗</a></div>
+            </div>
+          </div>
+        </div>
+        <div class="win" id="tracks-card">
+          <div class="win-bar"><span class="dots"><i></i><i></i><i></i></span>listen/on_repeat.m3u</div>
+          <div class="shelf-box">
+            <h3>On repeat</h3>
+            <div class="crate" id="crate" aria-label="Songs on repeat"></div>
+            <div class="book-info" id="track-info" aria-live="polite"></div>
+            <div class="spotify" id="spotify-embed"></div>
+          </div>
+        </div>
+        <div class="win">
+          <div class="win-bar"><span class="dots"><i></i><i></i><i></i></span>read/bookshelf/</div>
+          <div class="shelf-box">
+            <h3>Read</h3>
+            <div class="shelf" id="shelf" role="list" aria-label="Bookshelf"></div>
+            <div class="book-info" id="book-info" aria-live="polite"></div>
+          </div>
+        </div>
+        <div class="win travel-card">
+          <div class="win-bar"><span class="dots"><i></i><i></i><i></i></span>travel/places.txt</div>
+          <div class="bucket-box">
+            <h3>Travel</h3>
+            <p class="travel-count" id="travel-count"></p>
+            <div class="travel-cols">
+              <div><h4>homes so far</h4><ol class="homes" id="homes"></ol></div>
+              <div><h4>been there</h4><div class="stamps" id="stamps"></div></div>
+              <div><h4>bucket list</h4><ul class="bucket" id="bucket"></ul></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="sec" id="scrapbook">
+      <div class="h"><span class="num">§2</span><h2>Scrapbook</h2><span class="note">drag things around!</span></div>
+      <div class="gal-tools"><button class="btn" id="scatter">Scatter</button><button class="btn" id="tidy">Tidy up</button><small>A few snaps from my life. Drag any photo or sticker around.</small></div>
+      <div class="board" id="board"></div>
+    </section>
+  </main>
+
+  <footer class="foot wrap">© 2026 Shikha Bhat · made with lots of love</footer>
+</div>
+<script src="assets/js/main.js?v=3"></script>
+</body>
+</html>
