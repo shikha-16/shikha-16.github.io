@@ -82,11 +82,11 @@ if (clock) { tick(); setInterval(tick, 20000); }
 // Layers: where I've been → who I am → what I do → Shikha. Edit labels, descriptions and wires here.
 const NET = {
   layers: [
-    [ { id: 'google', t: 'Google', d: 'Two years as an ML engineer on Maps and Ads, plus internships' },
+    [ { id: 'work', t: 'Work', d: 'ML engineer at Google on Maps and Ads, and internships at Google and Uber' },
       { id: 'family', t: 'Family', d: 'Where it all started' },
-      { id: 'bits', t: 'BITS Goa', d: 'Computer science, philosophy and economics, and where I started building community' },
+      { id: 'edu', t: 'Education', d: 'Computer science at BITS Goa, and an MS in Machine Learning at Carnegie Mellon' },
       { id: 'travel', t: 'Travel', d: 'Six homes so far, and a long bucket list' },
-      { id: 'cmu', t: 'CMU', d: 'MS in Machine Learning and research at the Lab for AI and Social Impact' },
+      { id: 'art', t: 'Art', d: 'Music, books and anything creative' },
       { id: 'friends', t: 'Friends', d: 'My people, near and far' } ],
     [ { id: 'passion', t: 'Passion', d: 'Going all in on what matters to me' },
       { id: 'curiosity', t: 'Curiosity', d: 'Wanting to know how things work, and why' },
@@ -102,12 +102,12 @@ const NET = {
     [ { id: 'me', t: 'Shikha', d: 'All of the above, still training' } ],
   ],
   wires: {
-    bits: ['curiosity', 'passion', 'love', 'creativity'],
-    google: ['curiosity', 'motivation', 'passion'],
-    cmu: ['curiosity', 'motivation', 'compassion', 'ethics'],
-    travel: ['love', 'creativity', 'compassion'],
-    friends: ['love', 'compassion', 'motivation'],
+    edu: ['curiosity', 'passion', 'creativity', 'ethics'],
+    work: ['curiosity', 'motivation', 'passion'],
     family: ['love', 'compassion', 'motivation', 'ethics'],
+    friends: ['love', 'compassion', 'motivation'],
+    travel: ['love', 'creativity', 'compassion'],
+    art: ['creativity', 'love', 'passion'],
     curiosity: ['research', 'cs'],
     love: ['music'],
     motivation: ['cs', 'research'],
