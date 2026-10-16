@@ -82,36 +82,40 @@ if (clock) { tick(); setInterval(tick, 20000); }
 // Layers: where I've been → who I am → what I do → Shikha. Edit labels, descriptions and wires here.
 const NET = {
   layers: [
-    [ { id: 'bits', t: 'BITS Goa', d: 'Computer science, philosophy and economics, and where I started building community' },
-      { id: 'google', t: 'Google', d: 'Two years as an ML engineer on Maps and Ads, plus internships' },
-      { id: 'cmu', t: 'CMU', d: 'MS in Machine Learning and research at the Lab for AI and Social Impact' },
+    [ { id: 'google', t: 'Google', d: 'Two years as an ML engineer on Maps and Ads, plus internships' },
+      { id: 'family', t: 'Family', d: 'Where it all started' },
+      { id: 'bits', t: 'BITS Goa', d: 'Computer science, philosophy and economics, and where I started building community' },
       { id: 'travel', t: 'Travel', d: 'Six homes so far, and a long bucket list' },
-      { id: 'fam', t: 'Friends and Family', d: 'The people who keep me grounded' } ],
-    [ { id: 'curiosity', t: 'Curiosity', d: 'Wanting to know how things work, and why' },
+      { id: 'cmu', t: 'CMU', d: 'MS in Machine Learning and research at the Lab for AI and Social Impact' },
+      { id: 'friends', t: 'Friends', d: 'My people, near and far' } ],
+    [ { id: 'passion', t: 'Passion', d: 'Going all in on what matters to me' },
+      { id: 'curiosity', t: 'Curiosity', d: 'Wanting to know how things work, and why' },
+      { id: 'compassion', t: 'Compassion', d: 'Caring about who the work is for' },
+      { id: 'ethics', t: 'Ethics', d: 'Doing the right thing, especially with AI' },
       { id: 'love', t: 'Love', d: 'For people, for music, for good stories' },
       { id: 'motivation', t: 'Motivation', d: 'Showing up and doing the work' },
-      { id: 'compassion', t: 'Compassion', d: 'Caring about who the work is for' },
-      { id: 'creativity', t: 'Creativity', d: 'Finding a new way to look at a problem' },
-      { id: 'passion', t: 'Passion', d: 'Going all in on what matters to me' } ],
-    [ { id: 'cs', t: 'Computer Science', d: 'Software engineering and ML, from Google to CMU' },
-      { id: 'research', t: 'Research', d: 'ML for maternal health; earlier, COVID-19 modelling' },
-      { id: 'wit', t: 'Women in Tech', d: 'Founded a 550+ member community; mentoring' },
-      { id: 'art', t: 'Art + Music', d: 'Trained in Hindustani classical; covers on YouTube' } ],
+      { id: 'creativity', t: 'Creativity', d: 'Finding a new way to look at a problem' } ],
+    [ { id: 'research', t: 'Research', d: 'ML for maternal health; earlier, COVID-19 modelling' },
+      { id: 'music', t: 'Music', d: 'Trained in Hindustani classical; covers on YouTube' },
+      { id: 'cs', t: 'Computer Science', d: 'Software engineering and ML, from Google to CMU' },
+      { id: 'wit', t: 'Women in Tech', d: 'Founded a 550+ member community; mentoring' } ],
     [ { id: 'me', t: 'Shikha', d: 'All of the above, still training' } ],
   ],
   wires: {
-    bits: ['curiosity', 'passion', 'compassion'],
-    google: ['motivation', 'passion', 'creativity'],
-    cmu: ['curiosity', 'motivation', 'compassion'],
-    travel: ['curiosity', 'creativity', 'love'],
-    fam: ['love', 'compassion', 'motivation'],
+    bits: ['curiosity', 'passion', 'love', 'creativity'],
+    google: ['curiosity', 'motivation', 'passion'],
+    cmu: ['curiosity', 'motivation', 'compassion', 'ethics'],
+    travel: ['love', 'creativity', 'compassion'],
+    friends: ['love', 'compassion', 'motivation'],
+    family: ['love', 'compassion', 'motivation', 'ethics'],
     curiosity: ['research', 'cs'],
-    love: ['art', 'wit'],
+    love: ['music'],
     motivation: ['cs', 'research'],
     compassion: ['research', 'wit'],
-    creativity: ['art', 'cs'],
-    passion: ['wit', 'art', 'cs'],
-    cs: ['me'], research: ['me'], wit: ['me'], art: ['me'],
+    ethics: ['research', 'cs'],
+    creativity: ['music', 'cs'],
+    passion: ['wit', 'cs'],
+    research: ['me'], music: ['me'], cs: ['me'], wit: ['me'],
   },
 };
 const nc = $('net');
@@ -121,7 +125,7 @@ if (nc) {
   const LAYER = ['#86ccff', '#ff8cc6', '#7ce7c0', '#ffe14d'];
   const nodes = [], byId = {};
   NET.layers.forEach((layer, li) => layer.forEach((n, i) => {
-    const top = 88, bot = H - 58, span = bot - top;
+    const top = 40, bot = H - 52, span = bot - top;
     const y = layer.length === 1 ? (top + bot) / 2 - 20 : top + span * i / (layer.length - 1) * (li === 1 ? 1 : .9) + (li === 1 ? 0 : span * .05);
     const o = { ...n, li, i, x: XS[li], y, r: li === 3 ? 36 : 14 };
     nodes.push(o); byId[o.id] = o;
@@ -145,12 +149,6 @@ if (nc) {
     const ink = V('--ink');
     const on = hover ? path(hover) : null;
     nx.clearRect(0, 0, W, H);
-    // column headers
-    ['where I’ve been', 'who I am', 'what I do'].forEach((t, i) => {
-      nx.font = '600 14px IBM Plex Mono, monospace'; const w = nx.measureText(t).width;
-      nx.fillStyle = LAYER[i] + '66'; nx.beginPath(); nx.roundRect ? nx.roundRect(XS[i] - w / 2 - 10, 18, w + 20, 28, 14) : nx.rect(XS[i] - w / 2 - 10, 18, w + 20, 28); nx.fill();
-      nx.fillStyle = ink; nx.textAlign = 'center'; nx.fillText(t, XS[i], 37);
-    });
     // wires as soft curves
     edges.forEach(([a, b]) => {
       const c = curve(a, b), lit = (p >= 0 && p > a.li && p < a.li + 1.7) || (on && on.has(a) && on.has(b));
