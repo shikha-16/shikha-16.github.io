@@ -13,7 +13,7 @@
 }
 .site[data-look="color"]{
   --paper:#f2f7fd; --grid:#dbe6f3; --card:#ffffff; --ink:#26193d; --mute:#58607e; --line:#26193d;
-  --accent:#e2479a; --hl:#ffe14d; --pen:#7a4dff; --win-bar:#ffe14d; --term:#26193d; --term-fg:#ffd6ec; --term-k:#7ce7c0;
+  --accent:#e2479a; --hl:#ffe14d; --pen:#7a4dff; --win-bar:#e6eefa; --term:#26193d; --term-fg:#ffd6ec; --term-k:#7ce7c0;
   --c1:#ff8cc6; --c2:#ffe14d; --c3:#7ce7c0; --c4:#86ccff; --c5:#b99bff; --c6:#ffb067;
   --shadow:5px 5px 0 var(--ink); --pop:4px 4px 0 var(--ink);
   --ui:'Pixelify Sans','Courier New',monospace;
@@ -395,3 +395,13 @@ main{display:block;animation:pgin .35s ease-out}
 
 .off-link{color:inherit;text-decoration:underline;text-decoration-color:var(--c1);text-decoration-thickness:3px;text-underline-offset:3px}
 .off-link:hover{color:var(--pen)}
+
+/* ---------- window bars: soft pastels that rotate, instead of all yellow ---------- */
+.site[data-look="color"] .win > .win-bar{background:#c9e5ff}
+.site[data-look="color"] .win:nth-child(5n+2) > .win-bar{background:#ffd3ea}
+.site[data-look="color"] .win:nth-child(5n+3) > .win-bar{background:#cdf4e3}
+.site[data-look="color"] .win:nth-child(5n+4) > .win-bar{background:#e4d9ff}
+.site[data-look="color"] .win:nth-child(5n) > .win-bar{background:#ffe2c6}
+.site[data-look="color"] .term > .win-bar{background:#cdf4e3}
+.site[data-look="color"] .fig > .win-bar{background:#e4d9ff}
+.fig figcaption .hint{display:block;font-family:var(--hand);font-size:19px;color:var(--pen);margin-top:2px}

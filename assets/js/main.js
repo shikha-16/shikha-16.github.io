@@ -117,49 +117,59 @@ const NET = {
 const nc = $('net');
 if (nc) {
   const nx = nc.getContext('2d'), tip = $('tip');
-  const W = 880, H = 640, XS = [205, 400, 590, 765];
+  const W = 880, H = 640, XS = [215, 420, 615, 780];
+  const LAYER = ['#86ccff', '#ff8cc6', '#7ce7c0', '#ffe14d'];
   const nodes = [], byId = {};
   NET.layers.forEach((layer, li) => layer.forEach((n, i) => {
-    const o = { ...n, li, i, x: XS[li], y: 40 + (H - 110) * (i + 1) / (layer.length + 1), r: li === 3 ? 34 : 15 };
+    const top = 88, bot = H - 58, span = bot - top;
+    const y = layer.length === 1 ? (top + bot) / 2 - 20 : top + span * i / (layer.length - 1) * (li === 1 ? 1 : .9) + (li === 1 ? 0 : span * .05);
+    const o = { ...n, li, i, x: XS[li], y, r: li === 3 ? 36 : 14 };
     nodes.push(o); byId[o.id] = o;
   }));
   const edges = []; Object.entries(NET.wires).forEach(([a, bs]) => bs.forEach(b => byId[a] && byId[b] && edges.push([byId[a], byId[b]])));
-  // all nodes connected to a node, upstream and downstream
   const path = o => {
     const set = new Set([o]);
     const walk = (n, dir) => edges.forEach(([a, b]) => { const nxt = dir > 0 ? (a === n ? b : null) : (b === n ? a : null); if (nxt && !set.has(nxt)) { set.add(nxt); walk(nxt, dir); } });
     walk(o, 1); walk(o, -1); return set;
   };
+  const curve = (a, b) => { const dx = (b.x - a.x) * .5; return [a.x, a.y, a.x + dx, a.y, b.x - dx, b.y, b.x, b.y]; };
+  const at = (c, t) => { const u = 1 - t; return [u*u*u*c[0] + 3*u*u*t*c[2] + 3*u*t*t*c[4] + t*t*t*c[6], u*u*u*c[1] + 3*u*u*t*c[3] + 3*u*t*t*c[5] + t*t*t*c[7]]; };
+  const pill = (txt, x, y, align, font) => {
+    nx.font = font; const w = nx.measureText(txt).width, h = 24, px = 7;
+    const left = align === 'right' ? x - w - px * 2 : align === 'center' ? x - w / 2 - px : x;
+    nx.fillStyle = 'rgba(255,255,255,.92)'; nx.beginPath(); nx.roundRect ? nx.roundRect(left, y - h / 2, w + px * 2, h, 12) : nx.rect(left, y - h / 2, w + px * 2, h); nx.fill();
+    nx.fillStyle = V('--ink'); nx.textAlign = 'left'; nx.textBaseline = 'middle'; nx.fillText(txt, left + px, y + 1); nx.textBaseline = 'alphabetic';
+  };
   let pulse = -1, hover = null;
   function drawNet(p) {
-    const ink = V('--ink'), acc = V('--accent');
-    const cols = [V('--c4'), V('--c2'), V('--c6'), V('--c3'), V('--c1'), V('--c5')];
+    const ink = V('--ink');
     const on = hover ? path(hover) : null;
     nx.clearRect(0, 0, W, H);
-    // faint background mesh so it still reads as a network
-    nx.strokeStyle = '#e4ebf5'; nx.lineWidth = 1;
-    for (let li = 0; li < 3; li++) nodes.filter(n => n.li === li).forEach(a => nodes.filter(n => n.li === li + 1).forEach(b => { nx.beginPath(); nx.moveTo(a.x, a.y); nx.lineTo(b.x, b.y); nx.stroke(); }));
-    // meaningful wires
-    edges.forEach(([a, b]) => {
-      const lit = (p > a.li && p < a.li + 1.6) || (on && on.has(a) && on.has(b));
-      nx.strokeStyle = lit ? acc : (on ? '#d3dff0' : '#9fb3d1'); nx.lineWidth = lit ? 2.6 : 1.4;
-      nx.beginPath(); nx.moveTo(a.x, a.y); nx.lineTo(b.x, b.y); nx.stroke();
-      if (p > a.li && p < a.li + 1) { const f = p - a.li; nx.fillStyle = V('--pen'); nx.beginPath(); nx.arc(a.x + (b.x - a.x) * f, a.y + (b.y - a.y) * f, 3.5, 0, 7); nx.fill(); }
+    // column headers
+    ['where I’ve been', 'who I am', 'what I do'].forEach((t, i) => {
+      nx.font = '600 14px IBM Plex Mono, monospace'; const w = nx.measureText(t).width;
+      nx.fillStyle = LAYER[i] + '66'; nx.beginPath(); nx.roundRect ? nx.roundRect(XS[i] - w / 2 - 10, 18, w + 20, 28, 14) : nx.rect(XS[i] - w / 2 - 10, 18, w + 20, 28); nx.fill();
+      nx.fillStyle = ink; nx.textAlign = 'center'; nx.fillText(t, XS[i], 37);
     });
+    // wires as soft curves
+    edges.forEach(([a, b]) => {
+      const c = curve(a, b), lit = (p >= 0 && p > a.li && p < a.li + 1.7) || (on && on.has(a) && on.has(b));
+      nx.strokeStyle = lit ? V('--accent') : (on ? '#e3eaf5' : '#b8c8e0'); nx.lineWidth = lit ? 3 : 1.6;
+      nx.beginPath(); nx.moveTo(c[0], c[1]); nx.bezierCurveTo(c[2], c[3], c[4], c[5], c[6], c[7]); nx.stroke();
+      if (p > a.li && p < a.li + 1) { const [x, y] = at(c, p - a.li); nx.fillStyle = V('--accent'); nx.beginPath(); nx.arc(x, y, 4.5, 0, 7); nx.fill(); }
+    });
+    // nodes
     nodes.forEach(o => {
       const dim = on && !on.has(o), act = p < 0 || p >= o.li;
-      nx.globalAlpha = dim ? .3 : 1;
-      nx.beginPath(); nx.arc(o.x, o.y, o.r, 0, 7);
-      nx.fillStyle = o.li === 3 ? V('--c2') : (act ? cols[(o.i + o.li * 2) % cols.length] : '#fff'); nx.fill();
-      nx.lineWidth = hover === o ? 3.4 : 2; nx.strokeStyle = ink; nx.stroke();
-      nx.fillStyle = ink;
-      if (o.li === 0) { nx.textAlign = 'right'; nx.font = '500 19px IBM Plex Sans, sans-serif'; nx.fillText(o.t, o.x - 24, o.y + 7); }
-      else if (o.li === 3) { nx.textAlign = 'center'; nx.font = 'italic 38px Instrument Serif, serif'; nx.fillText(o.t, o.x, o.y + 76); }
-      else { nx.textAlign = 'center'; nx.font = (o.li === 1 ? '500 17px IBM Plex Mono, monospace' : '600 18px IBM Plex Sans, sans-serif'); nx.fillText(o.t, o.x, o.y + o.r + 22); }
+      nx.globalAlpha = dim ? .28 : 1;
+      if (hover === o) { nx.fillStyle = LAYER[o.li] + '55'; nx.beginPath(); nx.arc(o.x, o.y, o.r + 9, 0, 7); nx.fill(); }
+      nx.beginPath(); nx.arc(o.x, o.y, o.r, 0, 7); nx.fillStyle = act ? LAYER[o.li] : '#fff'; nx.fill();
+      nx.lineWidth = 2.2; nx.strokeStyle = ink; nx.stroke();
+      if (o.li === 0) pill(o.t, o.x - o.r - 6, o.y, 'right', '500 19px IBM Plex Sans, sans-serif');
+      else if (o.li === 3) { nx.fillStyle = ink; nx.textAlign = 'center'; nx.font = 'italic 40px Instrument Serif, serif'; nx.fillText(o.t, o.x, o.y + o.r + 42); }
+      else pill(o.t, o.x, o.y + o.r + 17, 'center', o.li === 1 ? '500 16px IBM Plex Mono, monospace' : '600 17px IBM Plex Sans, sans-serif');
       nx.globalAlpha = 1;
     });
-    nx.textAlign = 'center'; nx.font = '500 15px IBM Plex Mono, monospace'; nx.fillStyle = V('--mute');
-    ['where I’ve been', 'who I am', 'what I do'].forEach((t, i) => nx.fillText(t, XS[i], 22));
   }
   const hit = e => { const r = nc.getBoundingClientRect(), x = (e.clientX - r.left) * W / r.width, y = (e.clientY - r.top) * H / r.height; let f = null; nodes.forEach(o => { if (Math.hypot(o.x - x, o.y - y) < o.r + 12) f = o; }); return f; };
   nc.addEventListener('pointermove', e => {
