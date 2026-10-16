@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Experiences · Shikha Bhat</title>
+  <meta name="description" content="Research, work, projects, publications and community.">
+  <meta property="og:title" content="Experiences · Shikha Bhat">
+  <meta property="og:description" content="Research, work, projects, publications and community.">
+  <meta property="og:type" content="website">
+  <meta name="theme-color" content="#f2f7fd">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Caveat:wght@500;700&family=Pixelify+Sans:wght@500;600&display=swap">
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<div class="site" id="site" data-look="color">
+  <header class="menubar">
+    <div class="wrap">
+      <a class="mb-logo" href="index.html"><i></i>Shikha Bhat</a>
+      <nav class="mb-nav" aria-label="Site pages">
+        <a href="index.html">~/home</a>
+        <a href="experiences.html" aria-current="page">~/experiences</a>
+        <a href="gallery.html">~/gallery</a>
+        <a href="blogs.html">~/blogs</a>
+        <a href="contact.html">~/contact</a>
+      </nav>
+      <span class="mb-clock" id="clock">Pittsburgh</span>
+    </div>
+  </header>
+
+  <main class="wrap" id="main">
+
+    <div class="meta"><span>Experiences</span><span>2019 → now</span></div>
+    <section class="sec">
+      <div class="h"><span class="num">§1</span><h2>Current research</h2><span class="note">the thing I think about in the shower</span></div>
+      <div class="research">
+        <div>
+          <p><b>Sequential screening for postpartum depression.</b> At the CMU Lab for AI and Social Impact, in partnership with UPMC, I model over 72,000 pregnancies using EHR and maternal-health app data.</p>
+          <p>Two threads: <span class="hl">XGBoost + SHAP</span> models that predict new-onset depression at each stage of pregnancy (and test whether app data adds signal over EHR alone), and a <span class="hl b">sequential decision framework</span> that chooses among five graduated interventions using a clinician-informed utility, evaluated against historical care and RL baselines.</p>
+        </div>
+        <div class="win tl">
+          <svg viewBox="0 0 520 190" role="img" aria-label="Timeline of screening points across pregnancy: prior, three trimesters, delivery, postpartum">
+            <line x1="30" y1="96" x2="496" y2="96" class="tl-line" stroke-width="2"/>
+            <g font-family="IBM Plex Mono, monospace" font-size="12" text-anchor="middle" class="tl-pts"></g>
+            <g fill="none" stroke-width="1.5" stroke-dasharray="4 4" class="tl-arcs"><path d="M128 84 Q172 30 216 84"/><path d="M216 84 Q260 30 304 84"/><path d="M304 84 Q348 30 392 84"/><path d="M392 84 Q436 30 480 84"/></g>
+            <g font-family="IBM Plex Mono, monospace" font-size="12" text-anchor="middle" class="tl-q"><text x="172" y="42">screen?</text><text x="260" y="42">act?</text><text x="348" y="42">screen?</text><text x="436" y="42">act?</text></g>
+            <text x="30" y="174" font-family="IBM Plex Mono, monospace" font-size="11" class="tl-cap">a policy decides, at each timepoint, how much to intervene</text>
+          </svg>
+          <div class="cap">Fig. 2: timepoints in the PPD model</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec">
+      <div class="h"><span class="num">§2</span><h2>Experience</h2><span class="note">grouped by where I was</span></div>
+      <div class="orgs">
+        <div class="win org wide">
+          <div class="win-bar"><span class="dots"><i></i><i></i><i></i></span>google/</div>
+          <div class="org-body">
+            <div class="org-head"><span class="org-logo" style="background:var(--c4)">G</span><div><h3>Google</h3><p>Bengaluru · 2022 → 2026 · 3 roles</p></div></div>
+            <ol class="roles">
+              <li><span class="d">Summer 2022</span><div><b>Software Engineering Intern</b><p>Google Feedback: 12% better precision-recall for multilabel feedback classifiers through feature selection.</p></div></li>
+              <li><span class="d">2023 – 2025</span><div><b>Software Engineer (ML)</b><p><span class="mini">Maps</span> Improved the GNN that detects abuse in user contributions (reviews, edits, photos).</p><p><span class="mini">Ads</span> Generative summaries of 100k+ support cases into product insights; a Gemini 1.5 long-context pipeline that pulls tasks from 1k+ SOPs for 25k+ support agents.</p></div></li>
+              <li><span class="d">Summer 2026</span><div><b>Software Engineering Intern</b><p>Add your 2026 project here.</p></div></li>
+            </ol>
+          </div>
+        </div>
+        <div class="win org">
+          <div class="win-bar"><span class="dots"><i></i><i></i><i></i></span>carnegie_mellon/</div>
+          <div class="org-body">
+            <div class="org-head"><span class="org-logo" style="background:var(--c1)">C</span><div><h3>Carnegie Mellon</h3><p>Pittsburgh · 2025 → now · 2 roles</p></div></div>
+            <ol class="roles">
+              <li><span class="d">2025 – now</span><div><b>Research Assistant, Lab for AI and Social Impact</b><p>Maternal mental-health ML with UPMC.</p></div></li>
+              <li><span class="d">2025 – Dec 2026</span><div><b>MS Machine Learning</b><p>Projects in LLM safety, retrieval and RL.</p></div></li>
+            </ol>
+          </div>
+        </div>
+        <div class="win org">
+          <div class="win-bar"><span class="dots"><i></i><i></i><i></i></span>bits_goa/</div>
+          <div class="org-body">
+            <div class="org-head"><span class="org-logo" style="background:var(--c3)">B</span><div><h3>BITS Pilani Goa</h3><p>Goa · 2019 → 2023 · 3 roles</p></div></div>
+            <ol class="roles">
+              <li><span class="d">2019 – 2023</span><div><b>BE Computer Science</b><p>Minor in Philosophy, Economics and Politics.</p></div></li>
+              <li><span class="d">2020 – 2023</span><div><b>Research Student</b><p>Agent-based models of COVID-19 spread with Prof. Vinayak Naik; deep learning for burst photo selection.</p></div></li>
+              <li><span class="d">2022</span><div><b>Teaching Assistant, Artificial Intelligence</b><p>140+ students.</p></div></li>
+            </ol>
+          </div>
+        </div>
+        <div class="win org">
+          <div class="win-bar"><span class="dots"><i></i><i></i><i></i></span>uber/</div>
+          <div class="org-body">
+            <div class="org-head"><span class="org-logo" style="background:var(--c2)">U</span><div><h3>Uber</h3><p>Bengaluru · 2023 · 1 role</p></div></div>
+            <ol class="roles">
+              <li><span class="d">Jan – Jun 2023</span><div><b>Software Engineering Intern</b><p>Visualization tree tracing 1k+ push messages; dashboards with 20+ trigger and action metrics.</p></div></li>
+            </ol>
+          </div>
+        </div>
+        <div class="win org">
+          <div class="win-bar"><span class="dots"><i></i><i></i><i></i></span>csir_igib/</div>
+          <div class="org-body">
+            <div class="org-head"><span class="org-logo" style="background:var(--c6)">I</span><div><h3>CSIR-IGIB</h3><p>New Delhi (remote) · 2021 · 1 role</p></div></div>
+            <ol class="roles">
+              <li><span class="d">Summer 2021</span><div><b>Research Trainee</b><p>COVID-19 severity risk model with Dr. Rajesh Pandey.</p></div></li>
+            </ol>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="sec">
+      <div class="h"><span class="num">§3</span><h2>Projects</h2><span class="note">filter by method</span></div>
+      <div class="filters" id="filters">
+        <button class="chip" aria-pressed="true" data-f="all">all</button>
+        <button class="chip" aria-pressed="false" data-f="llm">LLMs</button>
+        <button class="chip" aria-pressed="false" data-f="rl">RL & search</button>
+        <button class="chip" aria-pressed="false" data-f="ml">classic ML</button>
+        <button class="chip" aria-pressed="false" data-f="eng">engineering</button>
+      </div>
+      <div class="cards" id="cards">
+        <a class="card" data-t="llm rl" href="#cards"><span class="id"><span>EXP-09</span><span>LLM · RL</span></span><h3>Creativity Killed the Guardrails</h3><p>The creativity vs. safety trade-off in RL fine-tuning of language models.</p></a>
+        <a class="card" data-t="llm eng" href="#cards"><span class="id"><span>EXP-08</span><span>RAG</span></span><h3>Pittsbert</h3><p>End-to-end RAG answering questions about Pittsburgh and CMU.</p></a>
+        <a class="card" data-t="ml" href="#cards"><span class="id"><span>EXP-07</span><span>vision</span></span><h3>Burst Photo Selection</h3><p>Deep learning ranks burst shots by aesthetic and technical quality.</p></a>
+        <a class="card" data-t="ml" href="https://github.com/MLGroup15/ROBPCA" target="_blank" rel="noopener"><span class="id"><span>EXP-06</span><span>stats ↗</span></span><h3>ROBPCA</h3><p>Robust PCA for high-dimensional data with outliers.</p></a>
+        <a class="card" data-t="rl" href="https://github.com/shikha-16/Connect4" target="_blank" rel="noopener"><span class="id"><span>EXP-05</span><span>RL ↗</span></span><h3>Connect4</h3><p>Monte Carlo Tree Search and Q-learning players.</p></a>
+        <a class="card" data-t="eng" href="https://github.com/shikha-16/prithvi" target="_blank" rel="noopener"><span class="id"><span>EXP-04</span><span>web ↗</span></span><h3>Prithvi</h3><p>Chrome extension that suggests greener products while you shop.</p></a>
+        <a class="card" data-t="rl" href="https://github.com/shikha-16/RobotPathPlanning" target="_blank" rel="noopener"><span class="id"><span>EXP-03</span><span>planning ↗</span></span><h3>Robot Path Planning</h3><p>RRT and RRT* through obstacle fields.</p></a>
+        <a class="card" data-t="ml" href="https://github.com/shikha-16/DigitRecognizer" target="_blank" rel="noopener"><span class="id"><span>EXP-02</span><span>NN ↗</span></span><h3>Digit Recognizer</h3><p>3-layer net from scratch on MNIST, 90% on Kaggle.</p></a>
+        <a class="card" data-t="rl" href="https://github.com/shikha-16/3CNF" target="_blank" rel="noopener"><span class="id"><span>EXP-01</span><span>GA ↗</span></span><h3>CNF Satisfiability</h3><p>Genetic algorithm for max 3-CNF clause satisfaction.</p></a>
+      </div>
+    </section>
+
+    <section class="sec">
+      <div class="h"><span class="num">§4</span><h2>Publications</h2></div>
+      <ol class="refs">
+        <li>Godse, R., <b>Bhat, S.</b>, Mestry, S., Naik, V. (2024). Estimating the Spread of COVID-19 Due to Transportation Networks Using Agent-Based Modeling. <i>Agents and Artificial Intelligence, ICAART 2023. LNCS vol. 14546, Springer.</i></li>
+        <li><b>Bhat, S.</b>, Godse, R., Mestry, S., Naik, V. (2023). Studying the Impact of Transportation During Lockdown on the Spread of COVID-19 Using Agent-Based Modeling. <i>Proceedings of ICAART 2023, SciTePress, pp. 80–92.</i></li>
+        <li><b>Bhat, S.</b>, Pandey, A., et al., Pandey, R. (2021). Learning From Biological and Computational Machines: Importance of SARS-CoV-2 Genomic Surveillance, Mutations and Risk Stratification. <i>Frontiers in Cellular and Infection Microbiology 11:783961.</i></li>
+      </ol>
+    </section>
+
+    <section class="sec">
+      <div class="h"><span class="num">§5</span><h2>Community & awards</h2></div>
+      <div class="community">
+        <div class="win"><div class="win-bar"><span class="dots"><i></i><i></i><i></i></span>women_in_tech/</div><div class="win-body"><h3>Founder, Women in Technology</h3><p>A 550+ member community and resource repo. Hacktoberfest maintainer leading 20+ contributors; featured in GitHub's ReadME Project.</p></div></div>
+        <div class="win"><div class="win-bar"><span class="dots"><i></i><i></i><i></i></span>teach_zari/</div><div class="win-body"><h3>Project Lead, Teach Zari</h3><p>Trained 30+ volunteers to teach 20 kids near campus. Three of them won JNVST scholarships for high school.</p></div></div>
+        <div class="win"><div class="win-bar"><span class="dots"><i></i><i></i><i></i></span>mentoring/</div><div class="win-body"><h3>Teaching & mentoring</h3><p>TA for Artificial Intelligence, Google Maps project mentor, Women in Tech mentor, Girlscript Star Performer.</p></div></div>
+      </div>
+      <div class="awards">
+        <span>Generation Google APAC Scholar 2021 · top 70 of 5,000+</span>
+        <span>Grace Hopper Student Scholar 2021</span>
+        <span>Mantra Award for Social Leadership 2019</span>
+        <span>BITS Merit Scholarship · top 2%</span>
+        <span>2× BITSAA Research Scholarship</span>
+        <span>Micron Research Allowance 2021–22</span>
+      </div>
+    </section>
+  </main>
+
+  <footer class="foot wrap">© 2026 Shikha Bhat · made with lots of chai in Pittsburgh</footer>
+</div>
+<script src="assets/js/main.js"></script>
+</body>
+</html>
