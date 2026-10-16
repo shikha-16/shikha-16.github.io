@@ -83,11 +83,9 @@ if (clock) { tick(); setInterval(tick, 20000); }
 const NET = {
   layers: [
     [ { id: 'work', t: 'Work', d: 'ML engineer at Google on Maps and Ads, and internships at Google and Uber' },
-      { id: 'family', t: 'Family', d: 'Where it all started' },
+      { id: 'fam', t: 'Family and Friends', d: 'The people who keep me grounded' },
       { id: 'edu', t: 'Education', d: 'Computer science at BITS Goa, and an MS in Machine Learning at Carnegie Mellon' },
-      { id: 'travel', t: 'Travel', d: 'Six homes so far, and a long bucket list' },
-      { id: 'art', t: 'Art', d: 'Music, books and anything creative' },
-      { id: 'friends', t: 'Friends', d: 'My people, near and far' } ],
+      { id: 'travelart', t: 'Travel and Art', d: 'Six homes so far, a long bucket list, and anything creative' } ],
     [ { id: 'passion', t: 'Passion', d: 'Going all in on what matters to me' },
       { id: 'curiosity', t: 'Curiosity', d: 'Wanting to know how things work, and why' },
       { id: 'compassion', t: 'Compassion', d: 'Caring about who the work is for' },
@@ -104,10 +102,8 @@ const NET = {
   wires: {
     edu: ['curiosity', 'passion', 'creativity', 'ethics'],
     work: ['curiosity', 'motivation', 'passion'],
-    family: ['love', 'compassion', 'motivation', 'ethics'],
-    friends: ['love', 'compassion', 'motivation'],
-    travel: ['love', 'creativity', 'compassion'],
-    art: ['creativity', 'love', 'passion'],
+    fam: ['love', 'compassion', 'motivation', 'ethics'],
+    travelart: ['love', 'creativity', 'compassion', 'passion'],
     curiosity: ['research', 'cs'],
     love: ['music'],
     motivation: ['cs', 'research'],
