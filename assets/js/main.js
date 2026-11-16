@@ -26,10 +26,10 @@ const GALLERY = [
 const BLOGS = [
   {"title": "The Avenues of a Full Life", "url": "blog/a-full-life.html", "blurb": "What I think a happy life needs: relationships, purpose, presence, growth and a little whimsy.", "tag": "reflection", "year": "", "filter": "life", "cover": "a full life", "color": "#ff8cc6", "pat": 0, "img": "images/blog/cover-a-full-life.jpg"},
   {"title": "My Love for Music", "url": "blog/music.html", "blurb": "Why music has always felt like home, from singing as a kid to posting covers.", "tag": "music", "year": "", "filter": "life", "cover": "music", "color": "#86ccff", "pat": 1, "img": "images/blog/cover-music.jpg"},
-  {"title": "Women in Technology: My Journey", "url": "blog/women-in-tech.html", "blurb": "Building a 550+ member community, maintaining open source for Hacktoberfest, and mentoring women in CS.", "tag": "community", "year": "", "filter": "community", "cover": "women in tech", "color": "#7ce7c0", "pat": 2, "img": "images/blog/cover-women-in-tech.png"},
+  {"title": "Women in Technology: My Journey", "url": "blog/women-in-tech.html", "blurb": "Building a 550+ member community, maintaining open source for Hacktoberfest, and mentoring women in CS.", "tag": "community", "year": "", "filter": "community", "cover": "women in tech", "color": "#7ce7c0", "pat": 2, "img": "images/blog/cover-women-in-tech.png", "fit": "contain"},
   {"title": "Grace Hopper Celebration India 2024", "url": "blog/ghc-india-2024.html", "blurb": "Attending GHC India as a Google delegate: the talks that stuck with me, day by day.", "tag": "conference", "year": "2024", "filter": "events", "cover": "GHC India", "color": "#ffe14d", "pat": 3, "img": "images/blog/cover-ghc-india-2024.jpg"},
-  {"title": "The Generation Google Scholarship", "url": "blog/generation-google.html", "blurb": "My experience with the APAC scholarship for women in CS, round by round, plus tips for applying.", "tag": "scholarship", "year": "2021", "filter": "events", "cover": "Gen Google", "color": "#b99bff", "pat": 0, "img": "images/blog/cover-generation-google.jpg"},
-  {"title": "The Grace Hopper Celebration 2021", "url": "blog/vghc-2021.html", "blurb": "Becoming a GHC Student Scholar, what the virtual celebration was like, and tips for making the most of it.", "tag": "conference", "year": "2021", "filter": "events", "cover": "vGHC '21", "color": "#ffb067", "pat": 1, "img": "images/blog/cover-vghc-2021.png"},
+  {"title": "The Generation Google Scholarship", "url": "blog/generation-google.html", "blurb": "My experience with the APAC scholarship for women in CS, round by round, plus tips for applying.", "tag": "scholarship", "year": "2021", "filter": "events", "cover": "Gen Google", "color": "#b99bff", "pat": 0, "img": "images/blog/cover-generation-google.jpg", "fit": "contain"},
+  {"title": "The Grace Hopper Celebration 2021", "url": "blog/vghc-2021.html", "blurb": "Becoming a GHC Student Scholar, what the virtual celebration was like, and tips for making the most of it.", "tag": "conference", "year": "2021", "filter": "events", "cover": "vGHC '21", "color": "#ffb067", "pat": 1, "img": "images/blog/cover-vghc-2021.png", "fit": "contain"},
   {"title": "Teach Zari with Nirmaan", "url": "blog/teach-zari.html", "blurb": "Teaching kids in a village near campus, and leading the team that made it happen.", "tag": "volunteering", "year": "2019", "filter": "community", "cover": "Teach Zari", "color": "#ff8cc6", "pat": 2, "img": "images/blog/cover-teach-zari.jpg"}
 ];
 
@@ -93,7 +93,6 @@ if (out) {
     travel: () => 'homes: ' + HOMES.map(h => h.place).join(' → ') + '\nbeen to ' + VISITED.length + ' more places · bucket list: ' + BUCKET.slice(0, 4).join(', ') + '…',
     experiences: () => go('experiences.html', '~/experiences'),
     'off-the-clock': () => go('off-the-clock.html', '~/off-the-clock'),
-    gallery: () => go('off-the-clock.html#scrapbook', '~/off-the-clock'),
     blogs: () => go('blogs.html', '~/blogs'),
     contact: () => go('contact.html', '~/contact'),
     ls: () => 'experiences/  off-the-clock/  blogs/  contact',
@@ -232,7 +231,7 @@ const posts = $('notes');
 if (posts) {
   const COV = ['#ff8cc6', '#86ccff', '#7ce7c0', '#ffe14d', '#b99bff', '#ffb067', '#ff8cc6'];
   posts.innerHTML = BLOGS.map((b, i) => `<a class="post${i === 0 ? ' feat' : ''}" data-t="${b.filter}" href="${esc(b.url)}">
-    <div class="cover pat${b.pat ?? i % 4}${b.img ? ' has-img' : ''}" style="background-color:${b.color || COV[i % COV.length]}">${b.img ? `<img src="${esc(b.img)}" alt="" loading="lazy">` : ''}<span class="sticker">${esc(b.tag)}${b.year ? ' · ' + b.year : ''}</span>${b.img ? '' : `<span class="kicker">${esc(b.cover)}</span>`}</div>
+    <div class="cover pat${b.pat ?? i % 4}${b.img ? ' has-img' : ''}" style="background-color:${b.color || COV[i % COV.length]}">${b.img ? `<img src="${esc(b.img)}" alt="" loading="lazy"${b.fit === 'contain' ? ' class="contain"' : ''}>` : ''}<span class="sticker">${esc(b.tag)}${b.year ? ' · ' + b.year : ''}</span>${b.img ? '' : `<span class="kicker">${esc(b.cover)}</span>`}</div>
     <div class="pbody"><h3>${esc(b.title)}</h3><p>${esc(b.blurb)}</p><span class="read">read the post →</span></div></a>`).join('');
   document.querySelectorAll('#bfilters .chip').forEach(c => c.addEventListener('click', () => {
     document.querySelectorAll('#bfilters .chip').forEach(x => x.setAttribute('aria-pressed', x === c));

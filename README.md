@@ -7,7 +7,7 @@ Plain HTML, CSS and JavaScript. No build step, so GitHub Pages serves it as is.
 ```
 index.html          ~/home         intro, terminal, right now
 experiences.html    ~/experiences  research, jobs by company, projects, papers
-off-the-clock.html  ~/off-the-clock  sing, read, travel + drag-and-drop scrapbook
+off-the-clock.html  ~/off-the-clock  sing, read, travel
 gallery.html        redirects to off-the-clock.html (old link)
 blogs.html          ~/blogs        blog cards with filters
 blog/*.html         one page per blog post
