@@ -5,7 +5,7 @@ My personal site: ML researcher, software engineer, singer.
 Plain HTML, CSS and JavaScript. No build step, so GitHub Pages serves it as is.
 
 ```
-index.html          ~/home         neural net, terminal, vinyl
+index.html          ~/home         intro, terminal, right now
 experiences.html    ~/experiences  research, jobs by company, projects, papers
 off-the-clock.html  ~/off-the-clock  sing, read, travel + drag-and-drop scrapbook
 gallery.html        redirects to off-the-clock.html (old link)

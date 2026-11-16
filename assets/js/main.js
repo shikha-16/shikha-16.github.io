@@ -78,110 +78,6 @@ const clock = $('clock');
 function tick() { try { clock.textContent = 'Pittsburgh ' + new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', timeZone: 'America/New_York' }); } catch (e) {} }
 if (clock) { tick(); setInterval(tick, 20000); }
 
-/* ================= HOME: neural network ================= */
-// Layers: where I've been → who I am → what I do → Shikha. Edit labels, descriptions and wires here.
-const NET = {
-  layers: [
-    [ { id: 'work', t: 'Work', d: 'ML engineer at Google on Maps and Ads, and internships at Google and Uber' },
-      { id: 'fam', t: 'Family and Friends', d: 'The people who keep me grounded' },
-      { id: 'edu', t: 'Education', d: 'Computer science at BITS Goa, and an MS in Machine Learning at Carnegie Mellon' },
-      { id: 'travelart', t: 'Travel and Art', d: 'Six homes so far, a long bucket list, and anything creative' } ],
-    [ { id: 'passion', t: 'Passion', d: 'Going all in on what matters to me' },
-      { id: 'curiosity', t: 'Curiosity', d: 'Wanting to know how things work, and why' },
-      { id: 'compassion', t: 'Compassion', d: 'Caring about who the work is for' },
-      { id: 'ethics', t: 'Ethics', d: 'Doing the right thing, especially with AI' },
-      { id: 'love', t: 'Love', d: 'For people, for music, for good stories' },
-      { id: 'motivation', t: 'Motivation', d: 'Showing up and doing the work' },
-      { id: 'creativity', t: 'Creativity', d: 'Finding a new way to look at a problem' } ],
-    [ { id: 'research', t: 'Research', d: 'ML for maternal health; earlier, COVID-19 modelling' },
-      { id: 'music', t: 'Music', d: 'Trained in Hindustani classical; covers on YouTube' },
-      { id: 'cs', t: 'Computer Science', d: 'Software engineering and ML, from Google to CMU' },
-      { id: 'wit', t: 'Women in Tech', d: 'Founded a 550+ member community; mentoring' } ],
-    [ { id: 'me', t: 'Shikha', d: 'All of the above, still training' } ],
-  ],
-  wires: {
-    edu: ['curiosity', 'passion', 'creativity', 'ethics'],
-    work: ['curiosity', 'motivation', 'passion'],
-    fam: ['love', 'compassion', 'motivation', 'ethics'],
-    travelart: ['love', 'creativity', 'compassion', 'passion'],
-    curiosity: ['research', 'cs'],
-    love: ['music'],
-    motivation: ['cs', 'research'],
-    compassion: ['research', 'wit'],
-    ethics: ['research', 'cs'],
-    creativity: ['music', 'cs'],
-    passion: ['wit', 'cs'],
-    research: ['me'], music: ['me'], cs: ['me'], wit: ['me'],
-  },
-};
-const nc = $('net');
-if (nc) {
-  const nx = nc.getContext('2d'), tip = $('tip');
-  const W = 880, H = 640, XS = [215, 420, 615, 780];
-  const LAYER = ['#86ccff', '#ff8cc6', '#7ce7c0', '#ffe14d'];
-  const nodes = [], byId = {};
-  NET.layers.forEach((layer, li) => layer.forEach((n, i) => {
-    const top = 40, bot = H - 52, span = bot - top;
-    const y = layer.length === 1 ? (top + bot) / 2 - 20 : top + span * i / (layer.length - 1) * (li === 1 ? 1 : .9) + (li === 1 ? 0 : span * .05);
-    const o = { ...n, li, i, x: XS[li], y, r: li === 3 ? 36 : 14 };
-    nodes.push(o); byId[o.id] = o;
-  }));
-  const edges = []; Object.entries(NET.wires).forEach(([a, bs]) => bs.forEach(b => byId[a] && byId[b] && edges.push([byId[a], byId[b]])));
-  const path = o => {
-    const set = new Set([o]);
-    const walk = (n, dir) => edges.forEach(([a, b]) => { const nxt = dir > 0 ? (a === n ? b : null) : (b === n ? a : null); if (nxt && !set.has(nxt)) { set.add(nxt); walk(nxt, dir); } });
-    walk(o, 1); walk(o, -1); return set;
-  };
-  const curve = (a, b) => { const dx = (b.x - a.x) * .5; return [a.x, a.y, a.x + dx, a.y, b.x - dx, b.y, b.x, b.y]; };
-  const at = (c, t) => { const u = 1 - t; return [u*u*u*c[0] + 3*u*u*t*c[2] + 3*u*t*t*c[4] + t*t*t*c[6], u*u*u*c[1] + 3*u*u*t*c[3] + 3*u*t*t*c[5] + t*t*t*c[7]]; };
-  const pill = (txt, x, y, align, font) => {
-    nx.font = font; const w = nx.measureText(txt).width, h = 24, px = 7;
-    const left = align === 'right' ? x - w - px * 2 : align === 'center' ? x - w / 2 - px : x;
-    nx.fillStyle = 'rgba(255,255,255,.92)'; nx.beginPath(); nx.roundRect ? nx.roundRect(left, y - h / 2, w + px * 2, h, 12) : nx.rect(left, y - h / 2, w + px * 2, h); nx.fill();
-    nx.fillStyle = V('--ink'); nx.textAlign = 'left'; nx.textBaseline = 'middle'; nx.fillText(txt, left + px, y + 1); nx.textBaseline = 'alphabetic';
-  };
-  let pulse = -1, hover = null;
-  function drawNet(p) {
-    const ink = V('--ink');
-    const on = hover ? path(hover) : null;
-    nx.clearRect(0, 0, W, H);
-    // wires as soft curves
-    edges.forEach(([a, b]) => {
-      const c = curve(a, b), lit = (p >= 0 && p > a.li && p < a.li + 1.7) || (on && on.has(a) && on.has(b));
-      nx.strokeStyle = lit ? V('--accent') : (on ? '#e3eaf5' : '#b8c8e0'); nx.lineWidth = lit ? 3 : 1.6;
-      nx.beginPath(); nx.moveTo(c[0], c[1]); nx.bezierCurveTo(c[2], c[3], c[4], c[5], c[6], c[7]); nx.stroke();
-      if (p > a.li && p < a.li + 1) { const [x, y] = at(c, p - a.li); nx.fillStyle = V('--accent'); nx.beginPath(); nx.arc(x, y, 4.5, 0, 7); nx.fill(); }
-    });
-    // nodes
-    nodes.forEach(o => {
-      const dim = on && !on.has(o), act = p < 0 || p >= o.li;
-      nx.globalAlpha = dim ? .28 : 1;
-      if (hover === o) { nx.fillStyle = LAYER[o.li] + '55'; nx.beginPath(); nx.arc(o.x, o.y, o.r + 9, 0, 7); nx.fill(); }
-      nx.beginPath(); nx.arc(o.x, o.y, o.r, 0, 7); nx.fillStyle = act ? LAYER[o.li] : '#fff'; nx.fill();
-      nx.lineWidth = 2.2; nx.strokeStyle = ink; nx.stroke();
-      if (o.li === 0) pill(o.t, o.x - o.r - 6, o.y, 'right', '500 19px IBM Plex Sans, sans-serif');
-      else if (o.li === 3) { nx.fillStyle = ink; nx.textAlign = 'center'; nx.font = 'italic 40px Instrument Serif, serif'; nx.fillText(o.t, o.x, o.y + o.r + 42); }
-      else pill(o.t, o.x, o.y + o.r + 17, 'center', o.li === 1 ? '500 16px IBM Plex Mono, monospace' : '600 17px IBM Plex Sans, sans-serif');
-      nx.globalAlpha = 1;
-    });
-  }
-  const hit = e => { const r = nc.getBoundingClientRect(), x = (e.clientX - r.left) * W / r.width, y = (e.clientY - r.top) * H / r.height; let f = null; nodes.forEach(o => { if (Math.hypot(o.x - x, o.y - y) < o.r + 12) f = o; }); return f; };
-  nc.addEventListener('pointermove', e => {
-    const f = hit(e); if (f !== hover) { hover = f; drawNet(pulse < 0 ? 4 : pulse); }
-    if (f) { tip.innerHTML = '<b>' + esc(f.t) + '</b><br>' + esc(f.d); tip.classList.add('on'); const fr = $('fig').getBoundingClientRect();
-      tip.style.left = Math.min(e.clientX - fr.left + 14, fr.width - 240) + 'px'; tip.style.top = (e.clientY - fr.top + 14) + 'px'; }
-    else tip.classList.remove('on');
-  });
-  nc.addEventListener('pointerleave', () => { hover = null; tip.classList.remove('on'); drawNet(pulse < 0 ? 4 : pulse); });
-  $('run').addEventListener('click', () => {
-    if (reduce) { drawNet(4); return; } let t0 = null;
-    const go = ts => { if (!t0) t0 = ts; pulse = (ts - t0) / 700; drawNet(pulse); if (pulse < 4) requestAnimationFrame(go); else { pulse = -1; drawNet(4); } };
-    requestAnimationFrame(go);
-  });
-  drawNet(4);
-  if (document.fonts) document.fonts.ready.then(() => drawNet(4));
-}
-
 /* ================= HOME: terminal ================= */
 const out = $('term-out');
 if (out) {
@@ -189,7 +85,7 @@ if (out) {
   const go = (url, label) => { setTimeout(() => { location.href = url; }, 450); return 'opening ' + label + '…'; };
   const cmds = {
     help: () => 'commands: <span class="k">whoami</span> <span class="k">where is she</span> <span class="k">research</span> <span class="k">music</span> <span class="k">reading</span> <span class="k">travel</span>\npages:    <span class="k">experiences</span> <span class="k">off-the-clock</span> <span class="k">blogs</span> <span class="k">contact</span>\nalso:     <span class="k">clear</span>',
-    whoami: () => 'Shikha Bhat. MS ML @ Carnegie Mellon. ex-Google ML engineer.\nbuilds ML for maternal health. cares most about AI for social impact.\noff the clock: sings, reads, travels.',
+    whoami: () => 'Shikha Bhat. MS ML @ Carnegie Mellon. ex-Google ML engineer.\nbuilds ML for maternal health. cares most about AI for social impact.\noff the clock: sings, reads, travels (and watches TV).',
     research: () => '<span class="c">now</span>   sequential screening for postpartum depression (CMU LASI × UPMC)\n<span class="c">past</span>  agent-based COVID-19 models (ICAART), severity risk (Frontiers)',
     music: () => 'trained in hindustani classical · girly pop on repeat\nlistens to every genre, always for the lyrics first\ncovers → <a href="https://www.youtube.com/channel/UCk3wDccuE9qDIIfIF9JwXhQ" target="_blank" rel="noopener">youtube</a>',
     reading: () => { const r = BOOKS.filter(b => b.status === 'reading'); return 'currently reading: ' + (r.length ? r.map(b => '<span class="c">' + esc(b.title) + '</span>' + (b.author ? ' by ' + esc(b.author) : '')).join(', ') : 'nothing right now') + '\nfull shelf → <a href="off-the-clock.html">~/off-the-clock</a>'; },
