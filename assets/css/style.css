@@ -427,3 +427,7 @@ main{display:block;animation:pgin .35s ease-out}
 .links a > span:first-child{display:flex;align-items:center;gap:10px}
 .link-logo{width:22px;height:22px;object-fit:contain;flex:none}
 .link-logo.env{display:grid;place-items:center;font-size:18px;line-height:1}
+
+.now-spin{margin:-4px 0 12px;font:500 13px/1.4 var(--mono);color:var(--mute)}
+.now-spin b{color:var(--ink)}
+.v-label span{font-size:8px}
